@@ -3,7 +3,7 @@ Personalized Skill Gap Tracking & Recommendation System Using MongoDB
 
    Personalized Skill Gap Tracking and Recommendation System Using MongoDB
    School of Computer Science and Engineering, VIT
-   Authors: Tharakesha M (24BCE2538) & Team
+   Authors: Tharakesha M , Mathu Metha S , Charulatha Venkatraman , Jai Jagannayagam
 
 =================================================================
 🌟 PROJECT OVERVIEW
