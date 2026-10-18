@@ -1,0 +1,227 @@
+[
+  {
+    "skillName": "React",
+    "tier": "Beginner to Intermediate",
+    "title": "React - The Complete Guide (incl. Next.js, Redux)",
+    "platform": "Udemy",
+    "type": "Online Course",
+    "durationHours": 48,
+    "url": "https://www.udemy.com/course/react-the-complete-guide-incl-redux/"
+  },
+  {
+    "skillName": "React",
+    "tier": "Advanced",
+    "title": "Official React Documentation & Patterns",
+    "platform": "React.dev",
+    "type": "Interactive Docs",
+    "durationHours": 15,
+    "url": "https://react.dev/learn"
+  },
+  {
+    "skillName": "Node.js",
+    "tier": "Intermediate",
+    "title": "Node.js, Express, MongoDB & More: The Complete Bootcamp",
+    "platform": "Udemy / Coursera",
+    "type": "Course & Project",
+    "durationHours": 42,
+    "url": "https://nodejs.org/en/docs"
+  },
+  {
+    "skillName": "MongoDB",
+    "tier": "Beginner to Advanced",
+    "title": "MongoDB Node.js Developer Path & Certification",
+    "platform": "MongoDB University",
+    "type": "Official Certification Path",
+    "durationHours": 20,
+    "url": "https://learn.mongodb.com"
+  },
+  {
+    "skillName": "TypeScript",
+    "tier": "Intermediate",
+    "title": "Understanding TypeScript - 2026 Edition",
+    "platform": "Udemy / Frontend Masters",
+    "type": "Course",
+    "durationHours": 15,
+    "url": "https://www.typescriptlang.org/docs/"
+  },
+  {
+    "skillName": "System Design",
+    "tier": "Advanced",
+    "title": "System Design Interview – An Insider's Guide & Primer",
+    "platform": "GitHub / Educative",
+    "type": "Book & Interactive Course",
+    "durationHours": 35,
+    "url": "https://github.com/donnemartin/system-design-primer"
+  },
+  {
+    "skillName": "Python",
+    "tier": "Beginner to Intermediate",
+    "title": "Python for Everybody Specialization",
+    "platform": "Coursera (Univ. of Michigan)",
+    "type": "Specialization",
+    "durationHours": 30,
+    "url": "https://www.coursera.org/specializations/python"
+  },
+  {
+    "skillName": "Machine Learning",
+    "tier": "Intermediate",
+    "title": "Machine Learning Specialization by Andrew Ng",
+    "platform": "Coursera / DeepLearning.AI",
+    "type": "Specialization",
+    "durationHours": 60,
+    "url": "https://www.coursera.org/specializations/machine-learning-introduction"
+  },
+  {
+    "skillName": "Deep Learning (PyTorch/TensorFlow)",
+    "tier": "Advanced",
+    "title": "Deep Learning Specialization",
+    "platform": "DeepLearning.AI",
+    "type": "Specialization",
+    "durationHours": 50,
+    "url": "https://www.deeplearning.ai/courses/deep-learning-specialization/"
+  },
+  {
+    "skillName": "SQL",
+    "tier": "Beginner to Intermediate",
+    "title": "Complete SQL Mastery & Query Optimization",
+    "platform": "LeetCode / Mode Analytics",
+    "type": "Interactive Practice",
+    "durationHours": 20,
+    "url": "https://mode.com/sql-tutorial/"
+  },
+  {
+    "skillName": "Docker",
+    "tier": "Beginner to Intermediate",
+    "title": "Docker Mastery: with Kubernetes +Swarm from a Docker Captain",
+    "platform": "Udemy",
+    "type": "Course & Lab",
+    "durationHours": 21,
+    "url": "https://docs.docker.com/get-started/"
+  },
+  {
+    "skillName": "Kubernetes",
+    "tier": "Advanced",
+    "title": "Certified Kubernetes Administrator (CKA) with Practice Tests",
+    "platform": "KodeKloud / Linux Foundation",
+    "type": "Hands-on Labs & Certification",
+    "durationHours": 30,
+    "url": "https://kubernetes.io/docs/tutorials/"
+  },
+  {
+    "skillName": "CI/CD Automation",
+    "tier": "Intermediate",
+    "title": "GitHub Actions - The Complete Guide",
+    "platform": "Udemy / GitHub Docs",
+    "type": "Course",
+    "durationHours": 12,
+    "url": "https://docs.github.com/en/actions"
+  },
+  {
+    "skillName": "Cloud Computing (AWS/Azure/GCP)",
+    "tier": "Intermediate to Advanced",
+    "title": "AWS Certified Solutions Architect - Associate",
+    "platform": "Stephane Maarek / AWS Skill Builder",
+    "type": "Certification Course",
+    "durationHours": 28,
+    "url": "https://aws.amazon.com/certification/certified-solutions-architect-associate/"
+  },
+  {
+    "skillName": "Linux & Bash",
+    "tier": "Beginner to Intermediate",
+    "title": "Linux Command Line and Shell Scripting Bible",
+    "platform": "Linux Foundation / EdX",
+    "type": "Course & Reference",
+    "durationHours": 18,
+    "url": "https://www.linux.org/forums/#linux-tutorials.122"
+  },
+  {
+    "skillName": "Computer Networks & Security",
+    "tier": "Intermediate",
+    "title": "Computer Networking: A Top-Down Approach (Kurose & Ross)",
+    "platform": "Stanford Online / MIT OpenCourseWare",
+    "type": "University Course",
+    "durationHours": 40,
+    "url": "https://gaia.cs.umass.edu/kurose_ross/index.php"
+  },
+  {
+    "skillName": "Penetration Testing & Exploitation",
+    "tier": "Advanced",
+    "title": "Offensive Security Certified Professional (OSCP) Prep / TryHackMe",
+    "platform": "TryHackMe / HackTheBox",
+    "type": "Hands-on CTF Labs",
+    "durationHours": 60,
+    "url": "https://tryhackme.com"
+  },
+  {
+    "skillName": "Large Language Models & Prompt Engineering",
+    "tier": "Intermediate to Advanced",
+    "title": "LangChain & Vector DBs for Production LLM Apps",
+    "platform": "DeepLearning.AI",
+    "type": "Short Course",
+    "durationHours": 10,
+    "url": "https://www.deeplearning.ai/short-courses/"
+  },
+  {
+    "skillName": "Vector Databases & RAG",
+    "tier": "Advanced",
+    "title": "MongoDB Atlas Vector Search & RAG Architecture",
+    "platform": "MongoDB Developer Center",
+    "type": "Technical Guide",
+    "durationHours": 8,
+    "url": "https://www.mongodb.com/products/platform/atlas-vector-search"
+  },
+  {
+    "skillName": "C / C++ Programming",
+    "tier": "Intermediate",
+    "title": "CS50x & C++ Core Guidelines",
+    "platform": "Harvard / edX",
+    "type": "Course & Standard Practice",
+    "durationHours": 45,
+    "url": "https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines"
+  },
+  {
+    "skillName": "Operating Systems & Concurrency",
+    "tier": "Advanced",
+    "title": "Operating Systems: Three Easy Pieces (OSTEP)",
+    "platform": "Univ. of Wisconsin-Madison",
+    "type": "Free Textbook & Labs",
+    "durationHours": 35,
+    "url": "https://pages.cs.wisc.edu/~remzi/OSTEP/"
+  },
+  {
+    "skillName": "Data Visualization",
+    "tier": "Intermediate",
+    "title": "Data Visualization with Tableau & Power BI",
+    "platform": "Coursera",
+    "type": "Course",
+    "durationHours": 20,
+    "url": "https://www.tableau.com/learn"
+  },
+  {
+    "skillName": "Testing & QA",
+    "tier": "Intermediate",
+    "title": "Automated Software Testing with Jest, Cypress & Playwright",
+    "platform": "TestingJavaScript.com",
+    "type": "Interactive Course",
+    "durationHours": 18,
+    "url": "https://playwright.dev/docs/intro"
+  },
+  {
+    "skillName": "Agile & Project Management",
+    "tier": "Intermediate",
+    "title": "Google Project Management Professional Certificate",
+    "platform": "Coursera / Google",
+    "type": "Professional Certificate",
+    "durationHours": 25,
+    "url": "https://grow.google/certificates/project-management/"
+  },
+  {
+    "skillName": "Communication & Leadership",
+    "tier": "All Levels",
+    "title": "Engineering Management & Technical Leadership",
+    "platform": "O'Reilly / Pluralsight",
+    "type": "Masterclass",
+    "durationHours": 12,
+    "url": "https://leaddev.com"
+  }
+]

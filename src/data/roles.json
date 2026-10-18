@@ -1,0 +1,267 @@
+[
+  {
+    "title": "Full Stack Developer",
+    "domain": "Software Development",
+    "description": "Designs and builds end-to-end web applications across client interfaces, backend services, and databases.",
+    "requirements": [
+      { "name": "React", "requiredLevel": 4, "category": "Frontend", "weight": 3 },
+      { "name": "Node.js", "requiredLevel": 4, "category": "Backend", "weight": 3 },
+      { "name": "MongoDB", "requiredLevel": 3, "category": "Database", "weight": 3 },
+      { "name": "TypeScript", "requiredLevel": 3, "category": "Frontend", "weight": 2 },
+      { "name": "REST API Design", "requiredLevel": 4, "category": "Backend", "weight": 2 },
+      { "name": "Git", "requiredLevel": 3, "category": "Tools", "weight": 1 }
+    ]
+  },
+  {
+    "title": "Backend Engineer",
+    "domain": "Software Development",
+    "description": "Architects high-throughput microservices, robust API endpoints, and efficient database persistence layers.",
+    "requirements": [
+      { "name": "Node.js", "requiredLevel": 4, "category": "Backend", "weight": 3 },
+      { "name": "MongoDB", "requiredLevel": 4, "category": "Database", "weight": 3 },
+      { "name": "System Design", "requiredLevel": 4, "category": "Architecture", "weight": 3 },
+      { "name": "REST API Design", "requiredLevel": 4, "category": "Backend", "weight": 2 },
+      { "name": "SQL", "requiredLevel": 3, "category": "Database", "weight": 2 },
+      { "name": "Docker", "requiredLevel": 3, "category": "DevOps", "weight": 2 },
+      { "name": "Testing & QA", "requiredLevel": 3, "category": "Quality", "weight": 2 }
+    ]
+  },
+  {
+    "title": "Frontend Engineer",
+    "domain": "Software Development",
+    "description": "Develops modern, responsive, and accessible user interfaces with optimal performance and state management.",
+    "requirements": [
+      { "name": "React", "requiredLevel": 4, "category": "Frontend", "weight": 3 },
+      { "name": "TypeScript", "requiredLevel": 4, "category": "Frontend", "weight": 3 },
+      { "name": "HTML & CSS", "requiredLevel": 5, "category": "Frontend", "weight": 3 },
+      { "name": "Web Performance", "requiredLevel": 3, "category": "Frontend", "weight": 2 },
+      { "name": "Testing & QA", "requiredLevel": 3, "category": "Quality", "weight": 2 },
+      { "name": "Git", "requiredLevel": 3, "category": "Tools", "weight": 1 }
+    ]
+  },
+  {
+    "title": "Mobile App Developer",
+    "domain": "Software Development",
+    "description": "Builds performant cross-platform or native mobile applications with intuitive touch interactions and offline capability.",
+    "requirements": [
+      { "name": "React Native", "requiredLevel": 4, "category": "Mobile", "weight": 3 },
+      { "name": "TypeScript", "requiredLevel": 3, "category": "Frontend", "weight": 2 },
+      { "name": "Mobile UI/UX", "requiredLevel": 4, "category": "Design", "weight": 2 },
+      { "name": "REST API Design", "requiredLevel": 3, "category": "Backend", "weight": 2 },
+      { "name": "Testing & QA", "requiredLevel": 3, "category": "Quality", "weight": 2 }
+    ]
+  },
+  {
+    "title": "AI / Machine Learning Engineer",
+    "domain": "Artificial Intelligence & Data",
+    "description": "Builds, trains, evaluates, and deploys predictive machine learning and deep learning models to production.",
+    "requirements": [
+      { "name": "Python", "requiredLevel": 5, "category": "Programming", "weight": 3 },
+      { "name": "Machine Learning", "requiredLevel": 4, "category": "AI/Data", "weight": 3 },
+      { "name": "Deep Learning (PyTorch/TensorFlow)", "requiredLevel": 4, "category": "AI/Data", "weight": 3 },
+      { "name": "Linear Algebra & Statistics", "requiredLevel": 4, "category": "Mathematics", "weight": 2 },
+      { "name": "Model Deployment & MLOps", "requiredLevel": 3, "category": "DevOps", "weight": 2 },
+      { "name": "SQL", "requiredLevel": 3, "category": "Database", "weight": 2 }
+    ]
+  },
+  {
+    "title": "Data Scientist",
+    "domain": "Artificial Intelligence & Data",
+    "description": "Extracts actionable business insights, creates statistical models, and communicates findings through data storytelling.",
+    "requirements": [
+      { "name": "Python", "requiredLevel": 4, "category": "Programming", "weight": 3 },
+      { "name": "Machine Learning", "requiredLevel": 4, "category": "AI/Data", "weight": 3 },
+      { "name": "Linear Algebra & Statistics", "requiredLevel": 4, "category": "Mathematics", "weight": 3 },
+      { "name": "Data Visualization", "requiredLevel": 4, "category": "AI/Data", "weight": 2 },
+      { "name": "SQL", "requiredLevel": 4, "category": "Database", "weight": 3 }
+    ]
+  },
+  {
+    "title": "Data Engineer",
+    "domain": "Artificial Intelligence & Data",
+    "description": "Constructs robust data pipelines, scalable ETL workflows, and distributed data lakes for analytics and ML.",
+    "requirements": [
+      { "name": "Python", "requiredLevel": 4, "category": "Programming", "weight": 3 },
+      { "name": "Apache Spark & Distributed Systems", "requiredLevel": 4, "category": "Big Data", "weight": 3 },
+      { "name": "SQL", "requiredLevel": 4, "category": "Database", "weight": 3 },
+      { "name": "MongoDB", "requiredLevel": 3, "category": "Database", "weight": 2 },
+      { "name": "Data Warehousing", "requiredLevel": 4, "category": "Big Data", "weight": 3 },
+      { "name": "Docker", "requiredLevel": 3, "category": "DevOps", "weight": 2 }
+    ]
+  },
+  {
+    "title": "Generative AI & LLM Engineer",
+    "domain": "Artificial Intelligence & Data",
+    "description": "Develops LLM agents, prompt pipelines, vector search retrieval (RAG), and fine-tunes foundation models.",
+    "requirements": [
+      { "name": "Python", "requiredLevel": 5, "category": "Programming", "weight": 3 },
+      { "name": "Large Language Models & Prompt Engineering", "requiredLevel": 4, "category": "AI/Data", "weight": 3 },
+      { "name": "Vector Databases & RAG", "requiredLevel": 4, "category": "AI/Data", "weight": 3 },
+      { "name": "REST API Design", "requiredLevel": 3, "category": "Backend", "weight": 2 },
+      { "name": "MongoDB", "requiredLevel": 3, "category": "Database", "weight": 2 }
+    ]
+  },
+  {
+    "title": "Business Intelligence (BI) Analyst",
+    "domain": "Artificial Intelligence & Data",
+    "description": "Designs interactive dashboards, key metric trackers, and automated executive reporting systems.",
+    "requirements": [
+      { "name": "SQL", "requiredLevel": 5, "category": "Database", "weight": 3 },
+      { "name": "Data Visualization", "requiredLevel": 5, "category": "AI/Data", "weight": 3 },
+      { "name": "Data Warehousing", "requiredLevel": 3, "category": "Big Data", "weight": 2 },
+      { "name": "Linear Algebra & Statistics", "requiredLevel": 3, "category": "Mathematics", "weight": 2 }
+    ]
+  },
+  {
+    "title": "DevOps Engineer",
+    "domain": "Cloud & Infrastructure",
+    "description": "Automates continuous integration and deployment pipelines, container orchestration, and cloud infrastructure.",
+    "requirements": [
+      { "name": "Docker", "requiredLevel": 4, "category": "DevOps", "weight": 3 },
+      { "name": "Kubernetes", "requiredLevel": 4, "category": "DevOps", "weight": 3 },
+      { "name": "CI/CD Automation", "requiredLevel": 4, "category": "DevOps", "weight": 3 },
+      { "name": "Cloud Computing (AWS/Azure/GCP)", "requiredLevel": 4, "category": "Cloud", "weight": 3 },
+      { "name": "Linux & Bash", "requiredLevel": 4, "category": "Systems", "weight": 2 },
+      { "name": "Infrastructure as Code (Terraform)", "requiredLevel": 3, "category": "DevOps", "weight": 2 }
+    ]
+  },
+  {
+    "title": "Cloud Solutions Architect",
+    "domain": "Cloud & Infrastructure",
+    "description": "Designs scalable, fault-tolerant, cost-effective enterprise cloud architectures and multi-region strategies.",
+    "requirements": [
+      { "name": "Cloud Computing (AWS/Azure/GCP)", "requiredLevel": 5, "category": "Cloud", "weight": 3 },
+      { "name": "System Design", "requiredLevel": 5, "category": "Architecture", "weight": 3 },
+      { "name": "Computer Networks & Security", "requiredLevel": 4, "category": "Networking", "weight": 3 },
+      { "name": "Docker", "requiredLevel": 3, "category": "DevOps", "weight": 2 },
+      { "name": "Kubernetes", "requiredLevel": 3, "category": "DevOps", "weight": 2 }
+    ]
+  },
+  {
+    "title": "Site Reliability Engineer (SRE)",
+    "domain": "Cloud & Infrastructure",
+    "description": "Guarantees high uptime, monitors latency and error budgets, and automates disaster recovery protocols.",
+    "requirements": [
+      { "name": "Linux & Bash", "requiredLevel": 4, "category": "Systems", "weight": 3 },
+      { "name": "Monitoring & Observability", "requiredLevel": 4, "category": "DevOps", "weight": 3 },
+      { "name": "Docker", "requiredLevel": 4, "category": "DevOps", "weight": 3 },
+      { "name": "Kubernetes", "requiredLevel": 3, "category": "DevOps", "weight": 2 },
+      { "name": "Python", "requiredLevel": 3, "category": "Programming", "weight": 2 },
+      { "name": "Computer Networks & Security", "requiredLevel": 3, "category": "Networking", "weight": 2 }
+    ]
+  },
+  {
+    "title": "Cybersecurity Analyst",
+    "domain": "Cybersecurity",
+    "description": "Monitors network activities, identifies vulnerabilities, mitigates malware threats, and executes incident response.",
+    "requirements": [
+      { "name": "Computer Networks & Security", "requiredLevel": 4, "category": "Networking", "weight": 3 },
+      { "name": "Vulnerability Assessment & SIEM", "requiredLevel": 4, "category": "Security", "weight": 3 },
+      { "name": "Linux & Bash", "requiredLevel": 4, "category": "Systems", "weight": 2 },
+      { "name": "Cryptography & PKI", "requiredLevel": 3, "category": "Security", "weight": 2 },
+      { "name": "Python", "requiredLevel": 3, "category": "Programming", "weight": 2 }
+    ]
+  },
+  {
+    "title": "Penetration Tester & Ethical Hacker",
+    "domain": "Cybersecurity",
+    "description": "Simulates adversary attacks against web applications, network devices, and API endpoints to remediate security gaps.",
+    "requirements": [
+      { "name": "Penetration Testing & Exploitation", "requiredLevel": 5, "category": "Security", "weight": 3 },
+      { "name": "Computer Networks & Security", "requiredLevel": 4, "category": "Networking", "weight": 3 },
+      { "name": "Linux & Bash", "requiredLevel": 4, "category": "Systems", "weight": 2 },
+      { "name": "REST API Design", "requiredLevel": 3, "category": "Backend", "weight": 2 },
+      { "name": "Python", "requiredLevel": 3, "category": "Programming", "weight": 2 }
+    ]
+  },
+  {
+    "title": "Network Security Engineer",
+    "domain": "Cybersecurity",
+    "description": "Deploys enterprise firewalls, VPN tunnels, IDS/IPS filters, and enforces zero-trust access controls.",
+    "requirements": [
+      { "name": "Computer Networks & Security", "requiredLevel": 5, "category": "Networking", "weight": 3 },
+      { "name": "Linux & Bash", "requiredLevel": 4, "category": "Systems", "weight": 2 },
+      { "name": "Vulnerability Assessment & SIEM", "requiredLevel": 4, "category": "Security", "weight": 3 },
+      { "name": "Cloud Computing (AWS/Azure/GCP)", "requiredLevel": 3, "category": "Cloud", "weight": 2 }
+    ]
+  },
+  {
+    "title": "Embedded Systems & IoT Engineer",
+    "domain": "Core Systems & Hardware",
+    "description": "Programs bare-metal microcontrollers, implements device drivers, and connects IoT hardware over wireless protocols.",
+    "requirements": [
+      { "name": "C / C++ Programming", "requiredLevel": 5, "category": "Systems", "weight": 3 },
+      { "name": "Microcontrollers & RTOS", "requiredLevel": 4, "category": "Systems", "weight": 3 },
+      { "name": "Computer Networks & Security", "requiredLevel": 3, "category": "Networking", "weight": 2 },
+      { "name": "Linux & Bash", "requiredLevel": 3, "category": "Systems", "weight": 2 }
+    ]
+  },
+  {
+    "title": "Systems Programmer",
+    "domain": "Core Systems & Hardware",
+    "description": "Develops operating system components, compilers, high-performance database kernels, and concurrency primitives.",
+    "requirements": [
+      { "name": "C / C++ Programming", "requiredLevel": 5, "category": "Systems", "weight": 3 },
+      { "name": "Operating Systems & Concurrency", "requiredLevel": 5, "category": "Systems", "weight": 3 },
+      { "name": "Linux & Bash", "requiredLevel": 4, "category": "Systems", "weight": 2 },
+      { "name": "System Design", "requiredLevel": 4, "category": "Architecture", "weight": 2 }
+    ]
+  },
+  {
+    "title": "Game Developer",
+    "domain": "Core Systems & Hardware",
+    "description": "Implements 2D/3D gameplay mechanics, real-time physics, graphics rendering shaders, and gameplay loops.",
+    "requirements": [
+      { "name": "C / C++ Programming", "requiredLevel": 4, "category": "Systems", "weight": 3 },
+      { "name": "Game Engine (Unity/Unreal)", "requiredLevel": 4, "category": "Game Dev", "weight": 3 },
+      { "name": "Linear Algebra & Statistics", "requiredLevel": 4, "category": "Mathematics", "weight": 2 },
+      { "name": "System Design", "requiredLevel": 3, "category": "Architecture", "weight": 2 }
+    ]
+  },
+  {
+    "title": "Database Administrator & Architect",
+    "domain": "Database & Architecture",
+    "description": "Maintains database clusters, shards large collections, optimizes complex queries, and ensures 24/7 data consistency.",
+    "requirements": [
+      { "name": "MongoDB", "requiredLevel": 5, "category": "Database", "weight": 3 },
+      { "name": "SQL", "requiredLevel": 5, "category": "Database", "weight": 3 },
+      { "name": "System Design", "requiredLevel": 4, "category": "Architecture", "weight": 3 },
+      { "name": "Linux & Bash", "requiredLevel": 4, "category": "Systems", "weight": 2 },
+      { "name": "Docker", "requiredLevel": 3, "category": "DevOps", "weight": 2 }
+    ]
+  },
+  {
+    "title": "QA & Test Automation Engineer",
+    "domain": "Quality & Process",
+    "description": "Builds automated end-to-end regression test suites, performance stress tests, and ensures continuous code reliability.",
+    "requirements": [
+      { "name": "Testing & QA", "requiredLevel": 5, "category": "Quality", "weight": 3 },
+      { "name": "Python", "requiredLevel": 3, "category": "Programming", "weight": 2 },
+      { "name": "CI/CD Automation", "requiredLevel": 3, "category": "DevOps", "weight": 2 },
+      { "name": "REST API Design", "requiredLevel": 3, "category": "Backend", "weight": 2 },
+      { "name": "Git", "requiredLevel": 3, "category": "Tools", "weight": 1 }
+    ]
+  },
+  {
+    "title": "UI/UX & Product Designer",
+    "domain": "Design & Management",
+    "description": "Creates intuitive user journeys, wireframes, accessible interactive design systems, and conducts user usability testing.",
+    "requirements": [
+      { "name": "Mobile UI/UX", "requiredLevel": 5, "category": "Design", "weight": 3 },
+      { "name": "HTML & CSS", "requiredLevel": 4, "category": "Frontend", "weight": 2 },
+      { "name": "Web Performance", "requiredLevel": 3, "category": "Frontend", "weight": 2 },
+      { "name": "Communication & Leadership", "requiredLevel": 4, "category": "Soft Skills", "weight": 2 }
+    ]
+  },
+  {
+    "title": "Engineering Manager",
+    "domain": "Design & Management",
+    "description": "Leads engineering squads, facilitates architecture reviews, aligns product delivery, and mentors developers.",
+    "requirements": [
+      { "name": "Communication & Leadership", "requiredLevel": 5, "category": "Soft Skills", "weight": 3 },
+      { "name": "System Design", "requiredLevel": 4, "category": "Architecture", "weight": 3 },
+      { "name": "Agile & Project Management", "requiredLevel": 4, "category": "Management", "weight": 3 },
+      { "name": "Testing & QA", "requiredLevel": 3, "category": "Quality", "weight": 1 }
+    ]
+  }
+]

@@ -1,0 +1,1142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SkillTrack — Personalized Skill Gap Recognition & Recommendation Engine</title>
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Chart.js via CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    @media print {
+      body * { visibility: hidden; }
+      #printableReport, #printableReport * { visibility: visible; }
+      #printableReport { position: absolute; left: 0; top: 0; width: 100%; }
+    }
+  </style>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen font-sans antialiased">
+
+  <!-- Header -->
+  <header class="bg-slate-800/80 border-b border-slate-700/80 sticky top-0 z-40 backdrop-blur-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-500 to-teal-400 flex items-center justify-center text-slate-950 font-black shadow-lg shadow-emerald-500/20">
+          <i class="fa-solid fa-brain text-xl"></i>
+        </div>
+        <div>
+          <h1 class="font-bold text-lg text-white leading-tight flex items-center gap-2">
+            SkillTrack <span class="text-xs bg-emerald-500/20 text-emerald-400 font-semibold px-2 py-0.5 rounded-full border border-emerald-500/30">MongoDB Engine</span>
+          </h1>
+          <p class="text-xs text-slate-400">Personalized Skill Gap Tracking & Recommendation System (BCSE302P)</p>
+        </div>
+      </div>
+
+      <!-- Quick Action Buttons -->
+      <div class="flex items-center space-x-2 sm:space-x-3">
+        <button onclick="openManageSkillsModal()" class="px-3 py-1.5 text-xs font-medium rounded-lg bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/30 transition flex items-center gap-1.5">
+          <i class="fa-solid fa-layer-group text-amber-400"></i> Manage Skills
+        </button>
+        <button onclick="openExtractModal()" class="px-3 py-1.5 text-xs font-medium rounded-lg bg-slate-700 hover:bg-slate-600 text-slate-200 transition flex items-center gap-1.5">
+          <i class="fa-solid fa-file-lines text-teal-400"></i> Resume Extractor
+        </button>
+        <button onclick="openSimulatorModal()" class="px-3 py-1.5 text-xs font-medium rounded-lg bg-indigo-600/30 hover:bg-indigo-600/50 text-indigo-300 border border-indigo-500/30 transition flex items-center gap-1.5">
+          <i class="fa-solid fa-sliders text-indigo-400"></i> What-If Simulator
+        </button>
+        <button onclick="openNewUserModal()" class="px-3 py-1.5 text-xs font-medium rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white shadow transition flex items-center gap-1.5">
+          <i class="fa-solid fa-user-plus"></i> New User
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Control & Selection Bar -->
+  <section class="bg-slate-800/40 border-b border-slate-700/50 py-4 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row gap-4 items-center justify-between">
+      
+      <!-- User Selector -->
+      <div class="flex items-center gap-2 w-full md:w-auto">
+        <label class="text-xs font-medium text-slate-400 uppercase tracking-wider flex items-center gap-1">
+          <i class="fa-solid fa-user text-slate-400"></i> Active Profile:
+        </label>
+        <select id="userSelect" onchange="onUserChange()" class="bg-slate-900 border border-slate-700 text-sm text-slate-200 rounded-lg px-3 py-2 focus:ring-2 focus:ring-emerald-500 focus:outline-none w-full md:w-64">
+          <option value="">Loading profiles...</option>
+        </select>
+        <button onclick="openManageSkillsModal()" class="px-2.5 py-2 text-xs font-medium rounded-lg bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/30 transition flex items-center gap-1 whitespace-nowrap" title="Edit your current skills & levels">
+          <i class="fa-solid fa-pen-to-square"></i> Edit Skills
+        </button>
+      </div>
+
+      <!-- Role Selector -->
+      <div class="flex items-center gap-3 w-full md:w-auto">
+        <label class="text-xs font-medium text-slate-400 uppercase tracking-wider flex items-center gap-1">
+          <i class="fa-solid fa-crosshairs text-emerald-400"></i> Target Career:
+        </label>
+        <select id="roleSelect" onchange="onRoleChange()" class="bg-slate-900 border border-slate-700 text-sm text-slate-200 rounded-lg px-3 py-2 focus:ring-2 focus:ring-emerald-500 focus:outline-none w-full md:w-80">
+          <option value="">Loading CS roles...</option>
+        </select>
+      </div>
+
+      <!-- Actions -->
+      <div class="flex items-center gap-2 w-full md:w-auto justify-end">
+        <button onclick="loadUserGapAnalysis()" class="px-4 py-2 text-xs font-semibold rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 transition flex items-center gap-1.5 shadow">
+          <i class="fa-solid fa-arrows-rotate"></i> Refresh Analysis
+        </button>
+        <button onclick="printAuditReport()" class="px-3 py-2 text-xs font-medium rounded-lg bg-slate-700 hover:bg-slate-600 text-slate-200 transition flex items-center gap-1.5" title="Print Audit Report">
+          <i class="fa-solid fa-print"></i> Print Report
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Main Container -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+
+    <!-- KPI Summary Cards -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      
+      <!-- Readiness Score Card -->
+      <div class="bg-slate-800/60 border border-slate-700/80 rounded-2xl p-5 relative overflow-hidden flex items-center justify-between shadow-lg">
+        <div>
+          <p class="text-xs font-medium text-slate-400 uppercase tracking-wider">Career Readiness</p>
+          <div class="flex items-baseline gap-2 mt-1">
+            <span id="readinessScoreVal" class="text-4xl font-extrabold text-emerald-400">0%</span>
+            <span id="readinessBadge" class="text-xs font-semibold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">Calculating</span>
+          </div>
+          <p id="targetRoleTitleText" class="text-xs text-slate-400 mt-1 truncate max-w-[180px]">For Target Role</p>
+        </div>
+        <div class="w-16 h-16 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 text-2xl">
+          <i class="fa-solid fa-chart-pie"></i>
+        </div>
+      </div>
+
+      <!-- Missing Skills Card -->
+      <div class="bg-slate-800/60 border border-slate-700/80 rounded-2xl p-5 relative overflow-hidden flex items-center justify-between shadow-lg">
+        <div>
+          <p class="text-xs font-medium text-slate-400 uppercase tracking-wider">Missing Competencies</p>
+          <div class="flex items-baseline gap-2 mt-1">
+            <span id="missingSkillsCount" class="text-4xl font-extrabold text-rose-400">0</span>
+            <span class="text-xs text-slate-400">Unlearned</span>
+          </div>
+          <p class="text-xs text-slate-400 mt-1">Skills at level 0 (not recorded)</p>
+        </div>
+        <div class="w-16 h-16 rounded-2xl bg-rose-500/10 border border-rose-500/20 flex items-center justify-center text-rose-400 text-2xl">
+          <i class="fa-solid fa-triangle-exclamation"></i>
+        </div>
+      </div>
+
+      <!-- Weak Skills Card -->
+      <div class="bg-slate-800/60 border border-slate-700/80 rounded-2xl p-5 relative overflow-hidden flex items-center justify-between shadow-lg">
+        <div>
+          <p class="text-xs font-medium text-slate-400 uppercase tracking-wider">Needs Improvement</p>
+          <div class="flex items-baseline gap-2 mt-1">
+            <span id="weakSkillsCount" class="text-4xl font-extrabold text-amber-400">0</span>
+            <span class="text-xs text-slate-400">Under benchmark</span>
+          </div>
+          <p class="text-xs text-slate-400 mt-1">Below target proficiency</p>
+        </div>
+        <div class="w-16 h-16 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 text-2xl">
+          <i class="fa-solid fa-arrow-trend-up"></i>
+        </div>
+      </div>
+
+      <!-- Priority Points Card -->
+      <div class="bg-slate-800/60 border border-slate-700/80 rounded-2xl p-5 relative overflow-hidden flex items-center justify-between shadow-lg">
+        <div>
+          <p class="text-xs font-medium text-slate-400 uppercase tracking-wider">Total Priority Gap</p>
+          <div class="flex items-baseline gap-2 mt-1">
+            <span id="totalPriorityPoints" class="text-4xl font-extrabold text-indigo-400">0</span>
+            <span class="text-xs text-slate-400">Points</span>
+          </div>
+          <p class="text-xs text-slate-400 mt-1">Weighted urgency score</p>
+        </div>
+        <div class="w-16 h-16 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 text-2xl">
+          <i class="fa-solid fa-bolt"></i>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Dual Layout: Left (Charts & Multi-Role Fit) | Right (Actionable Gaps & Recommendations) -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+      <!-- LEFT COLUMN (5 Cols): Visual Benchmark & Other Pathways -->
+      <div class="lg:col-span-5 space-y-6">
+        
+        <!-- Target Role Information Card -->
+        <div class="bg-slate-800/60 border border-slate-700/80 rounded-2xl p-5 shadow-lg">
+          <div class="flex items-start justify-between">
+            <div>
+              <span id="roleDomainBadge" class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-slate-700 text-teal-300">Software Development</span>
+              <h2 id="roleTitleHeader" class="text-xl font-bold text-white mt-1">Role Title</h2>
+            </div>
+            <span class="text-xs text-slate-400 bg-slate-900/60 px-2.5 py-1 rounded-lg border border-slate-700">1–5 Scale</span>
+          </div>
+          <p id="roleDescriptionText" class="text-xs text-slate-300 mt-2 leading-relaxed">Role description goes here.</p>
+        </div>
+
+        <!-- Visual Benchmark Comparison Chart -->
+        <div class="bg-slate-800/60 border border-slate-700/80 rounded-2xl p-5 shadow-lg">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="font-bold text-sm text-slate-200 flex items-center gap-2">
+              <i class="fa-solid fa-chart-bar text-emerald-400"></i> Competency Benchmark vs. Current
+            </h3>
+            <span class="text-[11px] text-slate-400">Current vs Required</span>
+          </div>
+          <div class="h-64 relative">
+            <canvas id="skillsChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Alternative Pathways (Multi-Role Fit) -->
+        <div class="bg-slate-800/60 border border-slate-700/80 rounded-2xl p-5 shadow-lg">
+          <div class="flex items-center justify-between mb-3">
+            <h3 class="font-bold text-sm text-slate-200 flex items-center gap-2">
+              <i class="fa-solid fa-route text-indigo-400"></i> Alternative Career Match
+            </h3>
+            <span class="text-[11px] text-slate-400">Multi-Role Aggregation</span>
+          </div>
+          <p class="text-xs text-slate-400 mb-3">Based on your existing skills, you also match these roles:</p>
+          <div id="otherRolesContainer" class="space-y-2.5">
+            <!-- Populated via JS -->
+          </div>
+        </div>
+
+      </div>
+
+      <!-- RIGHT COLUMN (7 Cols): Prioritized Skill Gaps & Curated Recommendations -->
+      <div class="lg:col-span-7 space-y-6">
+
+        <div class="bg-slate-800/60 border border-slate-700/80 rounded-2xl p-5 shadow-lg">
+          
+          <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-700/60">
+            <div>
+              <h3 class="font-bold text-base text-white flex items-center gap-2">
+                <i class="fa-solid fa-list-check text-emerald-400"></i> Personalized Skill Gap Audit
+              </h3>
+              <p class="text-xs text-slate-400">Ranked by Priority Score = Gap &times; Weight factor</p>
+            </div>
+            <span id="gapCountBadge" class="text-xs px-2.5 py-1 rounded-full bg-slate-700 text-slate-300 font-medium">0 Requirements</span>
+          </div>
+
+          <!-- Gap Items List -->
+          <div id="gapsContainer" class="space-y-4">
+            <!-- Populated via JS -->
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- MODAL: Resume / Bio Skill Extractor -->
+  <div id="extractModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-slate-800 border border-slate-700 rounded-2xl max-w-xl w-full p-6 shadow-2xl space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-700 pb-3">
+        <h3 class="text-lg font-bold text-white flex items-center gap-2">
+          <i class="fa-solid fa-file-invoice text-teal-400"></i> Smart Resume / Bio Skill Extractor
+        </h3>
+        <button onclick="closeExtractModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <p class="text-xs text-slate-300">
+        Paste your resume summary, project description, or LinkedIn bio. The MongoDB text engine will scan and extract verified CS skills to update your active profile.
+      </p>
+      <textarea id="resumeInputText" rows="6" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-xs text-slate-200 focus:ring-2 focus:ring-teal-500 focus:outline-none placeholder-slate-500" placeholder="e.g.: Computer Science engineer experienced in React, Node.js, MongoDB database aggregations, Docker containerization, REST API design, and Git version control..."></textarea>
+      
+      <div id="extractedResultsContainer" class="hidden space-y-2 max-h-48 overflow-y-auto p-2 bg-slate-900/60 rounded-xl border border-slate-700">
+        <!-- Results list -->
+      </div>
+
+      <div class="flex items-center justify-end gap-2 pt-2">
+        <button onclick="closeExtractModal()" class="px-4 py-2 text-xs font-medium rounded-lg bg-slate-700 hover:bg-slate-600 text-slate-300">Cancel</button>
+        <button onclick="extractSkillsFromText()" id="btnExtract" class="px-4 py-2 text-xs font-semibold rounded-lg bg-teal-500 hover:bg-teal-400 text-slate-950 flex items-center gap-1.5 shadow">
+          <i class="fa-solid fa-magnifying-glass"></i> Scan & Extract Skills
+        </button>
+        <button onclick="applyExtractedSkills()" id="btnApplySkills" class="hidden px-4 py-2 text-xs font-semibold rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 flex items-center gap-1.5 shadow">
+          <i class="fa-solid fa-check"></i> Apply to Active Profile
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: What-If Skill Simulator -->
+  <div id="simulatorModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-slate-800 border border-slate-700 rounded-2xl max-w-2xl w-full p-6 shadow-2xl space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-700 pb-3">
+        <div>
+          <h3 class="text-lg font-bold text-white flex items-center gap-2">
+            <i class="fa-solid fa-sliders text-indigo-400"></i> "What-If" Skill Simulator
+          </h3>
+          <p class="text-xs text-slate-400">Adjust skill levels in real-time to preview readiness score impact without altering database records.</p>
+        </div>
+        <button onclick="closeSimulatorModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      
+      <div class="flex items-center justify-between bg-slate-900/80 p-4 rounded-xl border border-indigo-500/30">
+        <div>
+          <span class="text-xs text-slate-400 uppercase tracking-wider font-medium">Simulated Readiness Score:</span>
+          <h4 id="simulatedScoreVal" class="text-3xl font-extrabold text-indigo-400 mt-0.5">0%</h4>
+        </div>
+        <div class="text-right">
+          <span class="text-xs text-slate-400">Target Role:</span>
+          <p id="simulatedRoleTitle" class="text-sm font-bold text-white">Full Stack Developer</p>
+        </div>
+      </div>
+
+      <div id="simulatorSlidersContainer" class="max-h-72 overflow-y-auto space-y-3 pr-2">
+        <!-- Sliders injected dynamically -->
+      </div>
+
+      <div class="flex items-center justify-end gap-2 pt-2 border-t border-slate-700">
+        <button onclick="closeSimulatorModal()" class="px-4 py-2 text-xs font-medium rounded-lg bg-slate-700 hover:bg-slate-600 text-slate-300">Close Simulator</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Create New User Profile -->
+  <div id="newUserModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-slate-800 border border-slate-700 rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-700 pb-3">
+        <h3 class="text-lg font-bold text-white flex items-center gap-2">
+          <i class="fa-solid fa-user-plus text-emerald-400"></i> Create Learner Profile
+        </h3>
+        <button onclick="closeNewUserModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="space-y-3">
+        <div>
+          <label class="block text-xs font-medium text-slate-300 mb-1">Full Name</label>
+          <input type="text" id="newUserName" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:ring-2 focus:ring-emerald-500" placeholder="e.g. Tharakesha M">
+        </div>
+        <div>
+          <label class="block text-xs font-medium text-slate-300 mb-1">Email / Student ID</label>
+          <input type="text" id="newUserEmail" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:ring-2 focus:ring-emerald-500" placeholder="e.g. 24BCE2538@vit.ac.in">
+        </div>
+        <div>
+          <label class="block text-xs font-medium text-slate-300 mb-1">Initial Target Career</label>
+          <select id="newUserRoleSelect" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:ring-2 focus:ring-emerald-500">
+            <!-- CS roles populated via JS -->
+          </select>
+        </div>
+      </div>
+      <div class="flex items-center justify-end gap-2 pt-2 border-t border-slate-700">
+        <button onclick="closeNewUserModal()" class="px-4 py-2 text-xs font-medium rounded-lg bg-slate-700 hover:bg-slate-600 text-slate-300">Cancel</button>
+        <button onclick="createNewUser()" class="px-4 py-2 text-xs font-semibold rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 shadow">Create Profile</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Manage Current User Skills -->
+  <div id="manageSkillsModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-slate-800 border border-slate-700 rounded-2xl max-w-xl w-full p-6 shadow-2xl space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-700 pb-3">
+        <div>
+          <h3 class="text-lg font-bold text-white flex items-center gap-2">
+            <i class="fa-solid fa-layer-group text-amber-400"></i> Manage My Skills & Proficiencies
+          </h3>
+          <p class="text-xs text-slate-400">Add or adjust your current proficiency (1–5) for any Computer Science skill.</p>
+        </div>
+        <button onclick="closeManageSkillsModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <!-- Add New Skill Form -->
+      <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-700/80 flex flex-col sm:flex-row items-center gap-2">
+        <select id="modalAddSkillSelect" class="bg-slate-800 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white flex-1 focus:outline-none focus:ring-1 focus:ring-amber-500 w-full sm:w-auto">
+          <!-- Populated from master skills list -->
+        </select>
+        <div class="flex items-center gap-1 w-full sm:w-auto justify-between sm:justify-start">
+          <span class="text-xs text-slate-400">Level:</span>
+          <select id="modalAddSkillLevel" class="bg-slate-800 border border-slate-700 rounded-lg px-2 py-1.5 text-xs text-white focus:outline-none focus:ring-1 focus:ring-amber-500">
+            <option value="1">1 (Beginner)</option>
+            <option value="2">2 (Novice)</option>
+            <option value="3" selected>3 (Intermediate)</option>
+            <option value="4">4 (Advanced)</option>
+            <option value="5">5 (Expert)</option>
+          </select>
+          <button onclick="addSkillFromModal()" class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 transition flex items-center gap-1 shadow whitespace-nowrap">
+            <i class="fa-solid fa-plus"></i> Add Skill
+          </button>
+        </div>
+      </div>
+
+      <!-- Active User Skills List -->
+      <div class="space-y-1">
+        <div class="flex justify-between items-center text-xs">
+          <span class="font-bold text-slate-300">Your Current Skills (<span id="modalSkillCount">0</span>):</span>
+          <span class="text-[11px] text-slate-400">Adjust levels or click delete</span>
+        </div>
+        <div id="modalSkillsListContainer" class="max-h-60 overflow-y-auto space-y-2 pr-1 pt-1">
+          <!-- Injected via JS -->
+        </div>
+      </div>
+
+      <div class="flex items-center justify-between pt-3 border-t border-slate-700">
+        <button onclick="closeManageSkillsModal()" class="px-4 py-2 text-xs font-medium rounded-lg bg-slate-700 hover:bg-slate-600 text-slate-300">Cancel</button>
+        <button onclick="saveManagedSkills()" class="px-4 py-2 text-xs font-semibold rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 shadow flex items-center gap-1.5">
+          <i class="fa-solid fa-floppy-disk"></i> Save Skills & Recalculate
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRINTABLE REPORT TEMPLATE (Hidden from screen view, visible on window.print()) -->
+  <div id="printableReport" class="hidden p-8 bg-white text-slate-900 font-sans">
+    <div class="border-b-2 border-slate-900 pb-4 mb-6 flex justify-between items-start">
+      <div>
+        <h1 class="text-2xl font-black uppercase tracking-tight text-slate-900">Personalized Skill Gap Audit Report</h1>
+        <p class="text-xs text-slate-600 font-semibold mt-1">Database Systems Lab (BCSE302P) • MongoDB Engine</p>
+      </div>
+      <div class="text-right text-xs text-slate-600">
+        <p>Generated: <span id="reportPrintDate"></span></p>
+        <p>Vellore Institute of Technology</p>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-2 gap-4 mb-6 bg-slate-100 p-4 rounded-lg">
+      <div>
+        <p class="text-xs font-semibold text-slate-500 uppercase">Student / Candidate:</p>
+        <p id="reportCandidateName" class="text-base font-bold text-slate-900"></p>
+        <p id="reportCandidateEmail" class="text-xs text-slate-600"></p>
+      </div>
+      <div>
+        <p class="text-xs font-semibold text-slate-500 uppercase">Target Career Role:</p>
+        <p id="reportTargetRole" class="text-base font-bold text-slate-900"></p>
+        <p class="text-xs text-slate-600">Readiness Score: <strong id="reportReadinessScore" class="text-emerald-700 text-sm"></strong></p>
+      </div>
+    </div>
+
+    <h2 class="text-sm font-bold text-slate-900 uppercase tracking-wider mb-2">Competency Gap Matrix</h2>
+    <table class="w-full text-left text-xs border-collapse mb-6">
+      <thead>
+        <tr class="bg-slate-200 border-b border-slate-300 font-bold text-slate-700">
+          <th class="p-2">Skill Name</th>
+          <th class="p-2">Category</th>
+          <th class="p-2">Current</th>
+          <th class="p-2">Required</th>
+          <th class="p-2">Gap</th>
+          <th class="p-2">Weight</th>
+          <th class="p-2">Priority Score</th>
+          <th class="p-2">Status</th>
+        </tr>
+      </thead>
+      <tbody id="reportTableBody">
+        <!-- Injected via JS -->
+      </tbody>
+    </table>
+
+    <h2 class="text-sm font-bold text-slate-900 uppercase tracking-wider mb-2">Recommended Learning Roadmap</h2>
+    <div id="reportRecommendationsContainer" class="space-y-2 text-xs">
+      <!-- Injected via JS -->
+    </div>
+  </div>
+
+  <!-- Application Logic (Frontend Controller) -->
+  <script>
+    let activeUserId = "";
+    let allUsers = [];
+    let allRoles = [];
+    let masterSkillsList = [];
+    let editSkillsBuffer = [];
+    let currentAnalysisData = null;
+    let chartInstance = null;
+    let tempExtractedSkills = [];
+
+    // Initialize application on load
+    window.addEventListener("DOMContentLoaded", async () => {
+      await fetchRoles();
+      await fetchSkillsMaster();
+      await fetchUsers();
+    });
+
+    async function fetchRoles() {
+      try {
+        const res = await fetch("/api/roles");
+        allRoles = await res.json();
+        
+        const roleSelect = document.getElementById("roleSelect");
+        const newUserRoleSelect = document.getElementById("newUserRoleSelect");
+        roleSelect.innerHTML = "";
+        newUserRoleSelect.innerHTML = "";
+
+        // Group by domain
+        const grouped = {};
+        for (const r of allRoles) {
+          const domain = r.domain || "General Computer Science";
+          if (!grouped[domain]) grouped[domain] = [];
+          grouped[domain].push(r);
+        }
+
+        for (const [domain, roles] of Object.entries(grouped)) {
+          const optGroup = document.createElement("optgroup");
+          optGroup.label = domain;
+          const optGroup2 = document.createElement("optgroup");
+          optGroup2.label = domain;
+
+          for (const role of roles) {
+            const opt = new Option(role.title, role._id);
+            const opt2 = new Option(role.title, role._id);
+            optGroup.appendChild(opt);
+            optGroup2.appendChild(opt2);
+          }
+          roleSelect.appendChild(optGroup);
+          newUserRoleSelect.appendChild(optGroup2);
+        }
+      } catch (e) {
+        console.error("Error loading roles:", e);
+      }
+    }
+
+    async function fetchSkillsMaster() {
+      try {
+        const res = await fetch("/api/skills");
+        masterSkillsList = await res.json();
+        
+        const select = document.getElementById("modalAddSkillSelect");
+        select.innerHTML = "<option value=''>-- Select a Computer Science skill to add --</option>";
+        
+        const grouped = {};
+        for (const s of masterSkillsList) {
+          const cat = s.category || "General";
+          if (!grouped[cat]) grouped[cat] = [];
+          grouped[cat].push(s);
+        }
+        for (const [cat, skills] of Object.entries(grouped)) {
+          const optGroup = document.createElement("optgroup");
+          optGroup.label = cat;
+          for (const s of skills) {
+            optGroup.appendChild(new Option(s.name, s.name));
+          }
+          select.appendChild(optGroup);
+        }
+      } catch (e) {
+        console.error("Error fetching master skills:", e);
+      }
+    }
+
+    function openManageSkillsModal() {
+      if (!activeUserId) return;
+      const activeUser = allUsers.find(u => u._id === activeUserId);
+      if (!activeUser) return;
+      
+      // Clone user's skills into buffer
+      editSkillsBuffer = JSON.parse(JSON.stringify(activeUser.skills || []));
+      renderModalSkillsList();
+      document.getElementById("manageSkillsModal").classList.remove("hidden");
+    }
+
+    function closeManageSkillsModal() {
+      document.getElementById("manageSkillsModal").classList.add("hidden");
+    }
+
+    function renderModalSkillsList() {
+      const container = document.getElementById("modalSkillsListContainer");
+      document.getElementById("modalSkillCount").innerText = editSkillsBuffer.length;
+      container.innerHTML = "";
+
+      if (editSkillsBuffer.length === 0) {
+        container.innerHTML = "<p class='text-xs text-slate-500 py-2'>No skills added yet. Use the dropdown above to add your competencies.</p>";
+        return;
+      }
+
+      editSkillsBuffer.forEach((s, idx) => {
+        const row = document.createElement("div");
+        row.className = "flex items-center justify-between p-2 rounded-lg bg-slate-900 border border-slate-700/80 text-xs";
+        row.innerHTML = `
+          <div class="flex items-center gap-2">
+            <span class="font-semibold text-white">${s.name}</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-[11px] text-slate-400">Level:</span>
+            <select onchange="updateBufferedSkillLevel(${idx}, this.value)" class="bg-slate-800 border border-slate-600 rounded px-1.5 py-0.5 text-xs text-white">
+              <option value="1" ${s.level === 1 ? 'selected' : ''}>1 (Beginner)</option>
+              <option value="2" ${s.level === 2 ? 'selected' : ''}>2 (Novice)</option>
+              <option value="3" ${s.level === 3 ? 'selected' : ''}>3 (Intermediate)</option>
+              <option value="4" ${s.level === 4 ? 'selected' : ''}>4 (Advanced)</option>
+              <option value="5" ${s.level === 5 ? 'selected' : ''}>5 (Expert)</option>
+            </select>
+            <button onclick="removeSkillFromModal(${idx})" class="text-rose-400 hover:text-rose-300 px-1.5 py-0.5 transition" title="Remove skill">
+              <i class="fa-solid fa-trash-can"></i>
+            </button>
+          </div>
+        `;
+        container.appendChild(row);
+      });
+    }
+
+    function updateBufferedSkillLevel(idx, newLevel) {
+      if (editSkillsBuffer[idx]) {
+        editSkillsBuffer[idx].level = parseInt(newLevel, 10);
+      }
+    }
+
+    function addSkillFromModal() {
+      const select = document.getElementById("modalAddSkillSelect");
+      const skillName = select.value;
+      const level = parseInt(document.getElementById("modalAddSkillLevel").value, 10);
+
+      if (!skillName) {
+        alert("Please select a skill from the list.");
+        return;
+      }
+
+      const existing = editSkillsBuffer.find(s => s.name.toLowerCase() === skillName.toLowerCase());
+      if (existing) {
+        existing.level = level;
+      } else {
+        editSkillsBuffer.push({ name: skillName, level });
+      }
+
+      select.value = "";
+      renderModalSkillsList();
+    }
+
+    function removeSkillFromModal(idx) {
+      editSkillsBuffer.splice(idx, 1);
+      renderModalSkillsList();
+    }
+
+    async function saveManagedSkills() {
+      if (!activeUserId) return;
+      try {
+        const res = await fetch(`/api/users/${activeUserId}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ skills: editSkillsBuffer })
+        });
+        const activeUser = allUsers.find(u => u._id === activeUserId);
+        if (activeUser) activeUser.skills = editSkillsBuffer;
+
+        closeManageSkillsModal();
+        await loadUserGapAnalysis();
+        alert("Skills saved and career gap recalculated successfully!");
+      } catch (e) {
+        alert("Failed to save skills: " + e.message);
+      }
+    }
+
+    async function fetchUsers() {
+      try {
+        const res = await fetch("/api/users");
+        allUsers = await res.json();
+        
+        const userSelect = document.getElementById("userSelect");
+        userSelect.innerHTML = "";
+
+        if (allUsers.length === 0) {
+          userSelect.innerHTML = "<option value=''>No users found</option>";
+          return;
+        }
+
+        for (const u of allUsers) {
+          const opt = new Option(`${u.name} (${u.email || "User"})`, u._id);
+          userSelect.appendChild(opt);
+        }
+
+        activeUserId = allUsers[0]._id;
+        userSelect.value = activeUserId;
+        syncTargetRoleSelectForActiveUser();
+        await loadUserGapAnalysis();
+      } catch (e) {
+        console.error("Error loading users:", e);
+      }
+    }
+
+    function syncTargetRoleSelectForActiveUser() {
+      const activeUser = allUsers.find(u => u._id === activeUserId);
+      if (activeUser && activeUser.targetRoleId) {
+        document.getElementById("roleSelect").value = activeUser.targetRoleId;
+      }
+    }
+
+    async function onUserChange() {
+      activeUserId = document.getElementById("userSelect").value;
+      syncTargetRoleSelectForActiveUser();
+      await loadUserGapAnalysis();
+    }
+
+    async function onRoleChange() {
+      const selectedRoleId = document.getElementById("roleSelect").value;
+      if (!activeUserId || !selectedRoleId) return;
+
+      // Update user's target role in MongoDB
+      try {
+        await fetch(`/api/users/${activeUserId}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ targetRoleId: selectedRoleId })
+        });
+        // Update local object
+        const u = allUsers.find(x => x._id === activeUserId);
+        if (u) u.targetRoleId = selectedRoleId;
+        await loadUserGapAnalysis();
+      } catch (e) {
+        console.error("Failed to update user role:", e);
+      }
+    }
+
+    async function loadUserGapAnalysis() {
+      if (!activeUserId) return;
+      try {
+        const res = await fetch(`/api/skill-gap/${activeUserId}`);
+        const data = await res.json();
+        if (data.error) {
+          alert("Error: " + data.error);
+          return;
+        }
+        currentAnalysisData = data;
+        renderDashboard(data);
+      } catch (e) {
+        console.error("Error running gap analysis:", e);
+      }
+    }
+
+    function renderDashboard(data) {
+      // 1. Metric Cards
+      const score = data.readinessScore || 0;
+      document.getElementById("readinessScoreVal").innerText = `${score}%`;
+      document.getElementById("targetRoleTitleText").innerText = `For ${data.targetRole.title}`;
+      
+      const badge = document.getElementById("readinessBadge");
+      if (score >= 75) {
+        badge.className = "text-xs font-semibold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30";
+        badge.innerText = "High Readiness";
+      } else if (score >= 50) {
+        badge.className = "text-xs font-semibold px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-400 border border-amber-500/30";
+        badge.innerText = "Moderate Fit";
+      } else {
+        badge.className = "text-xs font-semibold px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-400 border border-rose-500/30";
+        badge.innerText = "Action Needed";
+      }
+
+      document.getElementById("missingSkillsCount").innerText = data.summary.missingSkillsCount;
+      document.getElementById("weakSkillsCount").innerText = data.summary.weakSkillsCount;
+      document.getElementById("totalPriorityPoints").innerText = data.summary.totalPriorityPoints;
+
+      // 2. Target Role Info
+      document.getElementById("roleTitleHeader").innerText = data.targetRole.title;
+      document.getElementById("roleDomainBadge").innerText = data.targetRole.domain || "Computer Science";
+      document.getElementById("roleDescriptionText").innerText = data.targetRole.description || "Comprehensive competencies required for this career path.";
+      document.getElementById("gapCountBadge").innerText = `${data.gaps.length} Competencies Evaluated`;
+
+      // 3. Render Chart.js Bar Chart
+      renderChart(data.gaps);
+
+      // 4. Render Alternative Pathways
+      const otherContainer = document.getElementById("otherRolesContainer");
+      otherContainer.innerHTML = "";
+      if (data.otherRoleFits && data.otherRoleFits.length > 0) {
+        for (const fit of data.otherRoleFits) {
+          const div = document.createElement("div");
+          div.className = "p-3 rounded-xl bg-slate-900/60 border border-slate-700 flex items-center justify-between";
+          div.innerHTML = `
+            <div>
+              <p class="text-xs font-semibold text-white">${fit.title}</p>
+              <span class="text-[10px] text-slate-400">${fit.domain || "CS"}</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-bold ${fit.readinessScore >= 70 ? 'text-emerald-400' : (fit.readinessScore >= 50 ? 'text-amber-400' : 'text-slate-400')}">${fit.readinessScore}% Match</span>
+              <button onclick="switchRole('${fit.roleId}')" class="text-[10px] bg-slate-800 hover:bg-slate-700 border border-slate-600 px-2 py-1 rounded text-slate-200 transition" title="Switch target to this role">Switch</button>
+            </div>
+          `;
+          otherContainer.appendChild(div);
+        }
+      } else {
+        otherContainer.innerHTML = "<p class='text-xs text-slate-500'>No other roles evaluated.</p>";
+      }
+
+      // 5. Render Gaps & Recommendations List
+      const gapsContainer = document.getElementById("gapsContainer");
+      gapsContainer.innerHTML = "";
+
+      for (const g of data.gaps) {
+        const item = document.createElement("div");
+        item.className = "p-4 rounded-xl bg-slate-900/80 border border-slate-700/80 hover:border-slate-600 transition space-y-3";
+        
+        let statusBadge = "";
+        if (g.gap === 0) {
+          statusBadge = `<span class="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center gap-1"><i class="fa-solid fa-circle-check"></i> Benchmark Met</span>`;
+        } else if (g.currentLevel === 0) {
+          statusBadge = `<span class="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-400 border border-rose-500/30 flex items-center gap-1"><i class="fa-solid fa-circle-xmark"></i> Missing (0/${g.targetLevel})</span>`;
+        } else {
+          statusBadge = `<span class="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-400 border border-amber-500/30 flex items-center gap-1"><i class="fa-solid fa-triangle-exclamation"></i> Weak (${g.currentLevel}/${g.targetLevel})</span>`;
+        }
+
+        // Recommendations HTML
+        let recsHtml = "";
+        if (g.gap > 0 && g.learningResources && g.learningResources.length > 0) {
+          recsHtml = `
+            <div class="mt-2.5 pt-2.5 border-t border-slate-800 space-y-1.5">
+              <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1">
+                <i class="fa-solid fa-graduation-cap text-teal-400"></i> Recommended Learning Roadmaps:
+              </span>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                ${g.learningResources.map(r => `
+                  <a href="${r.url}" target="_blank" rel="noopener noreferrer" class="p-2 rounded-lg bg-slate-800/80 hover:bg-slate-700/80 border border-slate-700 block transition group">
+                    <div class="flex items-center justify-between text-[11px] font-semibold text-slate-200 group-hover:text-emerald-400">
+                      <span class="truncate">${r.title}</span>
+                      <i class="fa-solid fa-arrow-up-right-from-square text-[9px] text-slate-400 ml-1"></i>
+                    </div>
+                    <div class="flex items-center justify-between text-[10px] text-slate-400 mt-1">
+                      <span>${r.platform}</span>
+                      <span><i class="fa-regular fa-clock"></i> ~${r.durationHours}h</span>
+                    </div>
+                  </a>
+                `).join('')}
+              </div>
+            </div>
+          `;
+        }
+
+        item.innerHTML = `
+          <div class="flex items-start justify-between">
+            <div>
+              <div class="flex items-center gap-2">
+                <h4 class="font-bold text-sm text-white">${g.skill}</h4>
+                <span class="text-[10px] bg-slate-800 text-slate-400 px-2 py-0.5 rounded-md border border-slate-700">${g.category}</span>
+              </div>
+              <p class="text-xs text-slate-400 mt-1">
+                Current Level: <strong class="text-slate-200">${g.currentLevel}</strong> / Target: <strong class="text-emerald-400">${g.targetLevel}</strong> 
+                &bull; Gap: <span class="${g.gap > 0 ? 'text-rose-400 font-bold' : 'text-emerald-400 font-bold'}">${g.gap}</span> 
+                &bull; Weight: <span>&times;${g.weight}</span> 
+                &bull; Priority: <span class="text-indigo-400 font-bold">${g.priorityScore} pts</span>
+              </p>
+            </div>
+            <div class="flex items-center gap-2">
+              ${statusBadge}
+              ${g.currentLevel < 5 ? `
+                <button onclick="levelUpSkill('${g.skill}', ${g.currentLevel + 1})" class="px-2 py-1 bg-emerald-600/30 hover:bg-emerald-600 text-emerald-300 hover:text-white rounded text-xs border border-emerald-500/40 transition flex items-center gap-1" title="Log learning progress (+1 level)">
+                  <i class="fa-solid fa-plus text-[10px]"></i> Level Up
+                </button>
+              ` : ''}
+            </div>
+          </div>
+          ${recsHtml}
+        `;
+        gapsContainer.appendChild(item);
+      }
+    }
+
+    function renderChart(gaps) {
+      const ctx = document.getElementById("skillsChart").getContext("2d");
+      if (chartInstance) chartInstance.destroy();
+
+      const labels = gaps.map(g => g.skill.length > 15 ? g.skill.substring(0, 13) + '..' : g.skill);
+      const currentLevels = gaps.map(g => g.currentLevel);
+      const targetLevels = gaps.map(g => g.targetLevel);
+
+      chartInstance = new Chart(ctx, {
+        type: "bar",
+        data: {
+          labels,
+          datasets: [
+            {
+              label: "Current Level",
+              data: currentLevels,
+              backgroundColor: "rgba(52, 211, 153, 0.75)",
+              borderColor: "rgb(52, 211, 153)",
+              borderWidth: 1,
+              borderRadius: 4,
+            },
+            {
+              label: "Benchmark Required",
+              data: targetLevels,
+              backgroundColor: "rgba(99, 102, 241, 0.45)",
+              borderColor: "rgb(99, 102, 241)",
+              borderWidth: 1,
+              borderRadius: 4,
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: {
+              beginAtZero: true,
+              max: 5,
+              ticks: { stepSize: 1, color: "#94a3b8" },
+              grid: { color: "rgba(51, 65, 85, 0.5)" }
+            },
+            x: {
+              ticks: { color: "#94a3b8", maxRotation: 45, minRotation: 30 },
+              grid: { display: false }
+            }
+          },
+          plugins: {
+            legend: {
+              labels: { color: "#cbd5e1", font: { size: 11 } }
+            }
+          }
+        }
+      });
+    }
+
+    async function switchRole(roleId) {
+      document.getElementById("roleSelect").value = roleId;
+      await onRoleChange();
+    }
+
+    async function levelUpSkill(skillName, newLevel) {
+      if (!activeUserId) return;
+      try {
+        const res = await fetch(`/api/progress/${activeUserId}/level-up`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            skillName,
+            newLevel,
+            notes: `Achieved level ${newLevel} in ${skillName}`
+          })
+        });
+        const data = await res.json();
+        if (data.error) {
+          alert("Failed to level up skill: " + data.error);
+          return;
+        }
+        await loadUserGapAnalysis();
+      } catch (e) {
+        console.error("Error leveling up skill:", e);
+      }
+    }
+
+    // --- SMART RESUME EXTRACTOR MODAL ---
+    function openExtractModal() {
+      document.getElementById("extractModal").classList.remove("hidden");
+    }
+    function closeExtractModal() {
+      document.getElementById("extractModal").classList.add("hidden");
+      document.getElementById("extractedResultsContainer").classList.add("hidden");
+      document.getElementById("btnApplySkills").classList.add("hidden");
+    }
+
+    async function extractSkillsFromText() {
+      const text = document.getElementById("resumeInputText").value.trim();
+      if (!text) {
+        alert("Please enter resume or bio text to scan.");
+        return;
+      }
+      try {
+        const res = await fetch("/api/skills/extract", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ text })
+        });
+        const data = await res.json();
+        tempExtractedSkills = data.skills || [];
+
+        const container = document.getElementById("extractedResultsContainer");
+        container.innerHTML = "";
+        container.classList.remove("hidden");
+
+        if (tempExtractedSkills.length === 0) {
+          container.innerHTML = "<p class='text-xs text-amber-400 p-2'>No standardized skills matched. Try including terms like React, Python, MongoDB, Docker, etc.</p>";
+          document.getElementById("btnApplySkills").classList.add("hidden");
+          return;
+        }
+
+        container.innerHTML = `<p class='text-xs font-bold text-teal-400 mb-2'>Found ${tempExtractedSkills.length} Verified Competencies:</p>`;
+        for (const s of tempExtractedSkills) {
+          const row = document.createElement("div");
+          row.className = "flex items-center justify-between text-xs p-1.5 bg-slate-800 rounded border border-slate-700";
+          row.innerHTML = `
+            <span class="font-medium text-slate-200">${s.name} <span class="text-[10px] text-slate-400">(${s.category})</span></span>
+            <div class="flex items-center gap-1">
+              <span class="text-[10px] text-slate-400">Level:</span>
+              <input type="number" min="1" max="5" value="${s.suggestedLevel}" id="ext_level_${s.name.replace(/\s+/g, '_')}" class="w-12 bg-slate-900 border border-slate-600 rounded px-1.5 py-0.5 text-center text-xs text-white">
+            </div>
+          `;
+          container.appendChild(row);
+        }
+        document.getElementById("btnApplySkills").classList.remove("hidden");
+      } catch (e) {
+        alert("Skill extraction failed: " + e.message);
+      }
+    }
+
+    async function applyExtractedSkills() {
+      if (!activeUserId || tempExtractedSkills.length === 0) return;
+      
+      const skillsToApply = tempExtractedSkills.map(s => {
+        const input = document.getElementById(`ext_level_${s.name.replace(/\s+/g, '_')}`);
+        const level = input ? parseInt(input.value, 10) : 3;
+        return { name: s.name, level: Math.min(5, Math.max(1, level)) };
+      });
+
+      try {
+        const activeUser = allUsers.find(u => u._id === activeUserId);
+        const existingMap = new Map((activeUser.skills || []).map(s => [s.name, s.level]));
+        for (const s of skillsToApply) {
+          existingMap.set(s.name, s.level);
+        }
+        const updatedSkills = Array.from(existingMap.entries()).map(([name, level]) => ({ name, level }));
+
+        await fetch(`/api/users/${activeUserId}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ skills: updatedSkills })
+        });
+
+        activeUser.skills = updatedSkills;
+        closeExtractModal();
+        await loadUserGapAnalysis();
+        alert(`Successfully applied ${skillsToApply.length} skills to profile!`);
+      } catch (e) {
+        alert("Failed to save skills: " + e.message);
+      }
+    }
+
+    // --- WHAT-IF SIMULATOR MODAL ---
+    function openSimulatorModal() {
+      if (!currentAnalysisData) return;
+      document.getElementById("simulatorModal").classList.remove("hidden");
+      document.getElementById("simulatedRoleTitle").innerText = currentAnalysisData.targetRole.title;
+      document.getElementById("simulatedScoreVal").innerText = `${currentAnalysisData.readinessScore}%`;
+
+      const container = document.getElementById("simulatorSlidersContainer");
+      container.innerHTML = "";
+
+      const simulatedSkillsMap = new Map(currentAnalysisData.gaps.map(g => [g.skill, g.currentLevel]));
+
+      for (const g of currentAnalysisData.gaps) {
+        const row = document.createElement("div");
+        row.className = "p-3 bg-slate-900/70 border border-slate-700/80 rounded-xl space-y-1.5";
+        row.innerHTML = `
+          <div class="flex justify-between text-xs">
+            <span class="font-semibold text-white">${g.skill} <span class="text-[10px] text-slate-400">(Benchmark: ${g.targetLevel})</span></span>
+            <span id="slider_val_${g.skill.replace(/\s+/g, '_')}" class="font-bold text-indigo-400">Level ${g.currentLevel}</span>
+          </div>
+          <input type="range" min="0" max="5" value="${g.currentLevel}" class="w-full accent-indigo-500 cursor-pointer" oninput="onSimulatorSliderChange('${g.skill}', this.value)">
+        `;
+        container.appendChild(row);
+      }
+    }
+
+    function closeSimulatorModal() {
+      document.getElementById("simulatorModal").classList.add("hidden");
+    }
+
+    async function onSimulatorSliderChange(skillName, newLevel) {
+      document.getElementById(`slider_val_${skillName.replace(/\s+/g, '_')}`).innerText = `Level ${newLevel}`;
+      
+      // Collect all slider values
+      const simulatedSkills = currentAnalysisData.gaps.map(g => {
+        const slider = document.querySelector(`input[oninput*="'${g.skill}'"]`);
+        return {
+          name: g.skill,
+          level: slider ? parseInt(slider.value, 10) : g.currentLevel
+        };
+      });
+
+      // Call simulation endpoint
+      try {
+        const res = await fetch("/api/skill-gap/simulate", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            targetRoleId: currentAnalysisData.targetRole.id,
+            simulatedSkills
+          })
+        });
+        const simData = await res.json();
+        document.getElementById("simulatedScoreVal").innerText = `${simData.readinessScore}%`;
+      } catch (e) {
+        console.error("Simulation error:", e);
+      }
+    }
+
+    // --- CREATE NEW USER MODAL ---
+    function openNewUserModal() {
+      document.getElementById("newUserModal").classList.remove("hidden");
+    }
+    function closeNewUserModal() {
+      document.getElementById("newUserModal").classList.add("hidden");
+    }
+
+    async function createNewUser() {
+      const name = document.getElementById("newUserName").value.trim();
+      const email = document.getElementById("newUserEmail").value.trim();
+      const targetRoleId = document.getElementById("newUserRoleSelect").value;
+
+      if (!name) {
+        alert("Please enter a name");
+        return;
+      }
+
+      try {
+        const res = await fetch("/api/users", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name,
+            email,
+            targetRoleId,
+            skills: []
+          })
+        });
+        const result = await res.json();
+        closeNewUserModal();
+        await fetchUsers();
+        document.getElementById("userSelect").value = result.userId;
+        await onUserChange();
+      } catch (e) {
+        alert("Failed to create profile: " + e.message);
+      }
+    }
+
+    // --- PRINT AUDIT REPORT ---
+    function printAuditReport() {
+      if (!currentAnalysisData) {
+        alert("Please load an analysis first.");
+        return;
+      }
+      document.getElementById("reportPrintDate").innerText = new Date().toLocaleDateString() + " " + new Date().toLocaleTimeString();
+      document.getElementById("reportCandidateName").innerText = currentAnalysisData.user.name;
+      document.getElementById("reportCandidateEmail").innerText = currentAnalysisData.user.email || "Registered Student";
+      document.getElementById("reportTargetRole").innerText = currentAnalysisData.targetRole.title;
+      document.getElementById("reportReadinessScore").innerText = `${currentAnalysisData.readinessScore}% Overall Match`;
+
+      const tbody = document.getElementById("reportTableBody");
+      tbody.innerHTML = "";
+      for (const g of currentAnalysisData.gaps) {
+        const tr = document.createElement("tr");
+        tr.className = "border-b border-slate-200";
+        tr.innerHTML = `
+          <td class="p-2 font-medium">${g.skill}</td>
+          <td class="p-2 text-slate-600">${g.category}</td>
+          <td class="p-2">${g.currentLevel}</td>
+          <td class="p-2 font-semibold">${g.targetLevel}</td>
+          <td class="p-2 ${g.gap > 0 ? 'text-red-600 font-bold' : 'text-emerald-600 font-bold'}">${g.gap}</td>
+          <td class="p-2">${g.weight}</td>
+          <td class="p-2 font-bold">${g.priorityScore}</td>
+          <td class="p-2 font-semibold ${g.status === 'Benchmark Met' ? 'text-emerald-700' : (g.status === 'Missing Skill' ? 'text-red-700' : 'text-amber-700')}">${g.status}</td>
+        `;
+        tbody.appendChild(tr);
+      }
+
+      const recsContainer = document.getElementById("reportRecommendationsContainer");
+      recsContainer.innerHTML = "";
+      for (const g of currentAnalysisData.gaps) {
+        if (g.gap > 0 && g.learningResources && g.learningResources.length > 0) {
+          const div = document.createElement("div");
+          div.className = "p-2 bg-slate-50 border border-slate-200 rounded";
+          div.innerHTML = `
+            <p class="font-bold text-slate-800">${g.skill} (Gap: ${g.gap} levels &bull; Priority Score: ${g.priorityScore}):</p>
+            <ul class="list-disc ml-5 text-slate-700 mt-1">
+              ${g.learningResources.map(r => `<li><strong>${r.title}</strong> (${r.platform}) — ~${r.durationHours} hours</li>`).join('')}
+            </ul>
+          `;
+          recsContainer.appendChild(div);
+        }
+      }
+
+      window.print();
+    }
+  </script>
+</body>
+</html>

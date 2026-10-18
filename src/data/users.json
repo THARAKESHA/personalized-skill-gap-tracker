@@ -1,0 +1,37 @@
+[
+  {
+    "name": "Alex Kumar (CS Fresher)",
+    "email": "alex.kumar@example.com",
+    "targetRoleTitle": "Full Stack Developer",
+    "skills": [
+      { "name": "HTML & CSS", "level": 3 },
+      { "name": "React", "level": 2 },
+      { "name": "Python", "level": 3 },
+      { "name": "SQL", "level": 2 },
+      { "name": "Git", "level": 2 }
+    ]
+  },
+  {
+    "name": "Priya Sharma (Data Enthusiast)",
+    "email": "priya.sharma@example.com",
+    "targetRoleTitle": "AI / Machine Learning Engineer",
+    "skills": [
+      { "name": "Python", "level": 4 },
+      { "name": "SQL", "level": 3 },
+      { "name": "Linear Algebra & Statistics", "level": 3 },
+      { "name": "Machine Learning", "level": 2 },
+      { "name": "Git", "level": 3 }
+    ]
+  },
+  {
+    "name": "Rohan Verma (Cloud & DevOps Aspirant)",
+    "email": "rohan.verma@example.com",
+    "targetRoleTitle": "DevOps Engineer",
+    "skills": [
+      { "name": "Linux & Bash", "level": 3 },
+      { "name": "Docker", "level": 2 },
+      { "name": "Git", "level": 3 },
+      { "name": "Python", "level": 2 }
+    ]
+  }
+]
