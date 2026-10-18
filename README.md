@@ -1,7 +1,7 @@
 # Personalized Skill Gap Tracking & Recommendation System Using MongoDB
 
-> **Database Systems Lab (BCSE302P)**  
-> **Course Project — School of Computer Science and Engineering, VIT**  
+> **Personalized Skill Gap Tracking and Recommendation System Using MongoDB**  
+> **School of Computer Science and Engineering, VIT**  
 > **Authors**: Tharakesha M (24BCE2538) & Team
 
 ---

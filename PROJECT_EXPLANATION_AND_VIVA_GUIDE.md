@@ -1,7 +1,7 @@
 # Personalized Skill Gap Tracking & Recommendation System Using MongoDB
 ## Comprehensive Project Explanation, Architecture & Faculty Viva Defense Guide
 
-> **Course**: Database Systems Lab (`BCSE302P`)  
+> **Project**: Personalized Skill Gap Tracking & Recommendation System Using MongoDB  
 > **Degree**: B. Tech in Computer Science and Engineering  
 > **School**: School of Computer Science and Engineering (SCOPE), VIT  
 > **Team Members**:

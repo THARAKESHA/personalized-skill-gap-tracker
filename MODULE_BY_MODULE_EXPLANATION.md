@@ -1,7 +1,7 @@
 # Personalized Skill Gap Tracking & Recommendation System Using MongoDB
 ## In-Depth Architectural & Module-by-Module Technical Specification
 
-> **Course**: Database Systems Lab (`BCSE302P`)  
+> **Project**: Personalized Skill Gap Tracking & Recommendation System Using MongoDB  
 > **Degree**: B. Tech in Computer Science and Engineering  
 > **School**: School of Computer Science and Engineering (SCOPE), VIT  
 > **Authors**:

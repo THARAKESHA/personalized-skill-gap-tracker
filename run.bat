@@ -4,7 +4,7 @@ title SkillTrack - MongoDB Skill Gap Engine
 
 echo ========================================================
 echo Starting Personalized Skill Gap Recognition System
-echo Database Systems Lab - BCSE302P - MongoDB Engine
+echo MongoDB Engine
 echo ========================================================
 echo.
 
