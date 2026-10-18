@@ -17,5 +17,9 @@ Thumbs.db
 .vscode/
 .idea/
 
-# Temporary files
+# Temporary and export files
 temp_doc.html
+*.pdf
+*.pptx
+*.docx
+
