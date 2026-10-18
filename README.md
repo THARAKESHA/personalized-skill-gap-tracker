@@ -2,7 +2,7 @@
 
 > **Personalized Skill Gap Tracking and Recommendation System Using MongoDB**  
 > **School of Computer Science and Engineering, VIT**  
-> **Authors**: Tharakesha M  & Team
+> **Authors**: Tharakesha M , Mathu Metha S , Charulatha Venkatraman , Jai Jagannayagam
 
 ---
 
