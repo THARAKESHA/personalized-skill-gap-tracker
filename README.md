@@ -50,34 +50,112 @@ Built natively on **MongoDB**, the system leverages advanced MongoDB features su
 
 ---
 
-## 💻 Quick Start Instructions
+## 💻 How to Run the Project (Step-by-Step Guide)
 
-### 1. Ensure Docker MongoDB is Running
-```powershell
-docker start skilltracker-mongo
+Anyone can clone and run this project in under **2 minutes**. Follow the steps below:
+
+### ⚙️ Prerequisites
+Ensure you have the following installed on your computer:
+1. **Node.js (v18 or higher)**: [Download Node.js](https://nodejs.org/)
+2. **MongoDB**:
+   - **Option A (Local/Docker)**: Docker Desktop running `skilltracker-mongo` or local MongoDB Community Server on port `27017`.
+   - **Option B (Cloud MongoDB Atlas)**: Zero-installation cloud database URI (see below).
+
+---
+
+### Step 1: Clone or Download the Project
+
+#### Using Git:
+```bash
+git clone https://github.com/THARAKESHA/personalized-skill-gap-tracker.git
+cd personalized-skill-gap-tracker
 ```
-*(If starting from scratch: `docker run -d --name skilltracker-mongo -p 27017:27017 mongo:7`)*
 
-### 2. Install Dependencies (if needed)
-```powershell
+#### OR Download as ZIP (No Git Required):
+1. Click the green **`<> Code`** button at the top of this repository.
+2. Click **`Download ZIP`**.
+3. Extract the ZIP file and open the folder in your terminal or file explorer.
+
+---
+
+### Step 2: Choose Your Running Method
+
+#### 🟢 Method A: The 1-Click Launch (Recommended for Windows)
+If you are on Windows, simply **double-click the file:**
+```text
+run.bat
+```
+> **What `run.bat` does automatically:**
+> - Checks if Node.js is installed.
+> - Automatically runs `npm install` if running for the first time.
+> - Automatically runs `npm run seed` to populate roles and skills into MongoDB.
+> - Automatically starts the MongoDB Docker container (if Docker is used).
+> - Starts the web server and displays the live URL!
+
+---
+
+#### ⌨️ Method B: Terminal / Command Line (Windows, macOS, Linux)
+
+If you prefer using the terminal (or are on macOS/Linux), run these 3 standard commands:
+
+**1. Install Dependencies:**
+```bash
 npm install
 ```
 
-### 3. Seed Database Collections
-Populates 22 CS roles, 39 skills, 25 curated courses, and sample personas:
-```powershell
+**2. Seed the Database Collections (Roles, Skills & Curated Courses):**
+```bash
 npm run seed
 ```
+*(You will see green checkmarks confirming 22 CS roles, 39 skills, and 25 courses are inserted).*
 
-### 4. Start the Application
-```powershell
-npm run start
-# Or for live hot-reload development:
-npm run dev
+**3. Start the Web Server:**
+```bash
+npm start
+```
+*(Or use `npm run dev` for hot-reload development mode).*
+
+**Expected Terminal Output:**
+```text
+Connected to MongoDB
+====================================================
+Skill Gap Recognition Server running on http://localhost:4000
+Interactive Web UI accessible at http://localhost:4000
+====================================================
 ```
 
-### 5. Open Web Dashboard
-Visit **`http://localhost:4000`** in your browser.
+---
+
+### Step 3: Open the Web Dashboard
+
+Open your web browser (Chrome, Edge, Firefox) and navigate to:
+### 👉 **`http://localhost:4000`**
+
+---
+
+### 🌐 Running with Free Cloud MongoDB Atlas (No Docker Needed)
+
+If you (or your evaluator) do not have Docker or local MongoDB installed:
+1. Create a free cluster on [MongoDB Atlas](https://www.mongodb.com/cloud/atlas/register).
+2. Create a `.env` file in the project root (copied from `.env.example`).
+3. Add your Atlas connection string:
+   ```env
+   MONGODB_URI=mongodb+srv://<username>:<password>@cluster0.mongodb.net/skilltracker?retryWrites=true&w=majority
+   ```
+4. Run `npm run seed` once to populate the cloud database, then run `npm start`.
+
+---
+
+### 🎯 Quick Interactive Walkthrough (What to Test):
+
+1. **Select an Active Profile**: In the top navigation bar, choose from sample personas (**Alex Kumar**, **Priya Sharma**, **Rohan Verma**, or **Tharakesha**), or click **`+ New User`** to register your own profile.
+2. **Select Target Career Role**: Change the career dropdown to any of the 22 CS roles (e.g. *Full Stack Developer*, *AI/ML Engineer*, *DevOps Engineer*, *Cybersecurity Analyst*) to watch the MongoDB aggregation engine recalculate gaps in real-time.
+3. **Inspect the Visual Benchmark**: Review the Chart.js side-by-side bar chart (Green = Current Level vs. Purple = Benchmark Required).
+4. **Explore Alternative Career Match**: Look at the left panel to see alternative career pathways your current skillset already qualifies you for.
+5. **Resume / Bio Extractor**: Click **`Resume Extractor`** in the header, paste a short project or resume description, and click **`Scan & Extract`** to see MongoDB's text indexing extract verified skills automatically!
+6. **"What-If" Skill Simulator**: Click **`What-If Simulator`** in the top bar to drag sliders and preview how learning specific skills impacts your overall readiness score.
+7. **Print Audit Report**: Click **`Print Report`** to generate a clean, formatted audit sheet ready for lab submission.
+8. **To Stop the Server**: Press `Ctrl + C` in the command prompt window.
 
 ---
 
