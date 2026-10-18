@@ -4,47 +4,38 @@ title SkillTrack - MongoDB Skill Gap Engine
 
 echo ========================================================
 echo Starting Personalized Skill Gap Recognition System
-echo Database Systems Lab (BCSE302P) - MongoDB Engine
+echo Database Systems Lab - BCSE302P - MongoDB Engine
 echo ========================================================
 echo.
 
-:: 1. Navigate dynamically to the directory where this script is located
+:: 1. Navigate dynamically to script directory
 cd /d "%~dp0"
 
-:: 2. Check for Node.js installation
+:: 2. Check if Node.js is installed
 where node >nul 2>nul
-if %ERRORLEVEL% NEQ 0 (
-    echo [ERROR] Node.js is not found on your system!
-    echo Please install Node.js (v18+) from https://nodejs.org/ to run this project.
-    echo.
-    pause
-    exit /b 1
-)
+if errorlevel 1 goto :no_node
 
-:: 3. Automatically install dependencies and seed if node_modules is missing (first-time clone)
-if not exist "node_modules\" (
-    echo [1/3] First-time run detected: Installing required npm dependencies...
-    call npm install
-    echo.
-    echo [2/3] Populating initial database collections (Roles, Skills, Courses)...
-    call npm run seed
-    echo.
-) else (
-    echo [1/3] Dependencies verified.
-)
+:: 3. Check for node_modules (first-time ZIP extraction / clone)
+if not exist "node_modules\" goto :first_time_setup
+goto :check_docker
 
-:: 4. Attempt to start Docker container if Docker is installed and container exists
-echo [2/3] Checking MongoDB service...
+:first_time_setup
+echo [1/3] First-time run detected: Installing npm dependencies...
+call npm install
+echo.
+echo [2/3] Populating initial database collections (Roles, Skills, Courses)...
+call npm run seed
+echo.
+goto :check_docker
+
+:check_docker
+echo [2/3] Checking MongoDB Docker service...
 where docker >nul 2>nul
-if %ERRORLEVEL% EQU 0 (
-    docker ps -a --format "{{.Names}}" 2>nul | findstr /i "skilltracker-mongo" >nul 2>nul
-    if %ERRORLEVEL% EQU 0 (
-        echo Starting Docker container (skilltracker-mongo)...
-        docker start skilltracker-mongo >nul 2>nul
-    )
-)
+if errorlevel 1 goto :start_server
+docker start skilltracker-mongo >nul 2>nul
+goto :start_server
 
-:: 5. Launch the Express server
+:start_server
 echo [3/3] Starting Express Server with TypeScript...
 echo ========================================================
 echo Application is live at: http://localhost:4000
@@ -52,6 +43,17 @@ echo Open http://localhost:4000 in your browser!
 echo Press Ctrl + C to stop the server anytime.
 echo ========================================================
 echo.
-
 call npm start
+goto :end
+
+:no_node
+echo.
+echo [ERROR] Node.js is not found on your system!
+echo Please download and install Node.js from https://nodejs.org/
+echo After installing Node.js, run this file again.
+echo.
+pause
+exit /b 1
+
+:end
 pause
