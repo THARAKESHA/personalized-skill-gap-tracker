@@ -22,4 +22,6 @@ temp_doc.html
 *.pdf
 *.pptx
 *.docx
+report_assets/
+*.py
 

@@ -12,9 +12,74 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     @media print {
-      body * { visibility: hidden; }
-      #printableReport, #printableReport * { visibility: visible; }
-      #printableReport { position: absolute; left: 0; top: 0; width: 100%; }
+      @page {
+        margin: 1.2cm;
+        size: A4 portrait;
+      }
+      html, body {
+        background: #ffffff !important;
+        color: #0f172a !important;
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+      /* Hide all non-printable UI elements */
+      header, main, footer, .no-print, #simulatorModal, #extractModal, #manageSkillsModal, #newUserModal {
+        display: none !important;
+      }
+      #reportModal {
+        position: static !important;
+        display: block !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        width: 100% !important;
+      }
+      #reportModal > div {
+        max-width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        box-shadow: none !important;
+        border: none !important;
+      }
+      #printableReport {
+        display: block !important;
+        visibility: visible !important;
+        position: static !important;
+        width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        background: #ffffff !important;
+        color: #0f172a !important;
+      }
+      #printableReport * {
+        visibility: visible !important;
+      }
+      table {
+        width: 100% !important;
+        border-collapse: collapse !important;
+      }
+      th, td {
+        border: 1px solid #94a3b8 !important;
+        padding: 6px 8px !important;
+      }
+      th {
+        background-color: #f1f5f9 !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+      .bg-slate-100 {
+        background-color: #f8fafc !important;
+        border: 1px solid #e2e8f0 !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+      .bg-slate-50 {
+        background-color: #f8fafc !important;
+        border: 1px solid #e2e8f0 !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
     }
   </style>
 </head>
@@ -85,7 +150,7 @@
         <button onclick="loadUserGapAnalysis()" class="px-4 py-2 text-xs font-semibold rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 transition flex items-center gap-1.5 shadow">
           <i class="fa-solid fa-arrows-rotate"></i> Refresh Analysis
         </button>
-        <button onclick="printAuditReport()" class="px-3 py-2 text-xs font-medium rounded-lg bg-slate-700 hover:bg-slate-600 text-slate-200 transition flex items-center gap-1.5" title="Print Audit Report">
+        <button onclick="printAuditReport(true)" class="px-3 py-2 text-xs font-medium rounded-lg bg-slate-700 hover:bg-slate-600 text-slate-200 transition flex items-center gap-1.5" title="Print Audit Report">
           <i class="fa-solid fa-print"></i> Print Report
         </button>
       </div>
@@ -385,54 +450,80 @@
     </div>
   </div>
 
-  <!-- PRINTABLE REPORT TEMPLATE (Hidden from screen view, visible on window.print()) -->
-  <div id="printableReport" class="hidden p-8 bg-white text-slate-900 font-sans">
-    <div class="border-b-2 border-slate-900 pb-4 mb-6 flex justify-between items-start">
-      <div>
-        <h1 class="text-2xl font-black uppercase tracking-tight text-slate-900">Personalized Skill Gap Audit Report</h1>
-        <p class="text-xs text-slate-600 font-semibold mt-1">Personalized Skill Gap Tracking & Recommendation System • MongoDB Engine</p>
+  <!-- MODAL: Printable Report Preview & Print -->
+  <div id="reportModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-white rounded-2xl max-w-4xl w-full p-6 shadow-2xl my-8 text-slate-900 border border-slate-200 space-y-4">
+      
+      <!-- Top Actions Bar (Hidden on print) -->
+      <div class="flex items-center justify-between pb-3 border-b border-slate-200 no-print">
+        <div class="flex items-center gap-2">
+          <i class="fa-solid fa-file-invoice text-emerald-600 text-xl"></i>
+          <div>
+            <h3 class="text-base font-bold text-slate-800">Laboratory Skill Gap Audit Sheet Preview</h3>
+            <p class="text-xs text-slate-500">Official Evaluation & Progress Verification Sheet</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <button onclick="window.print()" class="px-4 py-2 text-xs font-bold rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white shadow transition flex items-center gap-1.5">
+            <i class="fa-solid fa-print"></i> Print / Save as PDF
+          </button>
+          <button onclick="closeReportModal()" class="px-3 py-2 text-xs font-medium rounded-lg bg-slate-200 hover:bg-slate-300 text-slate-700 transition">
+            Close
+          </button>
+        </div>
       </div>
-      <div class="text-right text-xs text-slate-600">
-        <p>Generated: <span id="reportPrintDate"></span></p>
-        <p>Vellore Institute of Technology</p>
-      </div>
-    </div>
 
-    <div class="grid grid-cols-2 gap-4 mb-6 bg-slate-100 p-4 rounded-lg">
-      <div>
-        <p class="text-xs font-semibold text-slate-500 uppercase">Student / Candidate:</p>
-        <p id="reportCandidateName" class="text-base font-bold text-slate-900"></p>
-        <p id="reportCandidateEmail" class="text-xs text-slate-600"></p>
-      </div>
-      <div>
-        <p class="text-xs font-semibold text-slate-500 uppercase">Target Career Role:</p>
-        <p id="reportTargetRole" class="text-base font-bold text-slate-900"></p>
-        <p class="text-xs text-slate-600">Readiness Score: <strong id="reportReadinessScore" class="text-emerald-700 text-sm"></strong></p>
-      </div>
-    </div>
+      <!-- Printable Report Content (Visible on screen and on print) -->
+      <div id="printableReport" class="p-2 sm:p-4 bg-white text-slate-900 font-sans">
+        <div class="border-b-2 border-slate-900 pb-4 mb-6 flex justify-between items-start">
+          <div>
+            <h1 class="text-2xl font-black uppercase tracking-tight text-slate-900">Personalized Skill Gap Audit Report</h1>
+            <p class="text-xs text-slate-600 font-semibold mt-1">Personalized Skill Gap Tracking & Recommendation System &bull; MongoDB Engine</p>
+          </div>
+          <div class="text-right text-xs text-slate-600">
+            <p>Generated: <span id="reportPrintDate"></span></p>
+            <p>Vellore Institute of Technology</p>
+          </div>
+        </div>
 
-    <h2 class="text-sm font-bold text-slate-900 uppercase tracking-wider mb-2">Competency Gap Matrix</h2>
-    <table class="w-full text-left text-xs border-collapse mb-6">
-      <thead>
-        <tr class="bg-slate-200 border-b border-slate-300 font-bold text-slate-700">
-          <th class="p-2">Skill Name</th>
-          <th class="p-2">Category</th>
-          <th class="p-2">Current</th>
-          <th class="p-2">Required</th>
-          <th class="p-2">Gap</th>
-          <th class="p-2">Weight</th>
-          <th class="p-2">Priority Score</th>
-          <th class="p-2">Status</th>
-        </tr>
-      </thead>
-      <tbody id="reportTableBody">
-        <!-- Injected via JS -->
-      </tbody>
-    </table>
+        <div class="grid grid-cols-2 gap-4 mb-6 bg-slate-100 p-4 rounded-lg border border-slate-200">
+          <div>
+            <p class="text-xs font-semibold text-slate-500 uppercase tracking-wide">Student / Candidate:</p>
+            <p id="reportCandidateName" class="text-base font-bold text-slate-900"></p>
+            <p id="reportCandidateEmail" class="text-xs text-slate-600"></p>
+          </div>
+          <div>
+            <p class="text-xs font-semibold text-slate-500 uppercase tracking-wide">Target Career Role:</p>
+            <p id="reportTargetRole" class="text-base font-bold text-slate-900"></p>
+            <p class="text-xs text-slate-600 mt-0.5">Readiness Score: <strong id="reportReadinessScore" class="text-emerald-700 text-sm font-black"></strong></p>
+          </div>
+        </div>
 
-    <h2 class="text-sm font-bold text-slate-900 uppercase tracking-wider mb-2">Recommended Learning Roadmap</h2>
-    <div id="reportRecommendationsContainer" class="space-y-2 text-xs">
-      <!-- Injected via JS -->
+        <h2 class="text-sm font-bold text-slate-900 uppercase tracking-wider mb-2">Competency Gap Matrix</h2>
+        <table class="w-full text-left text-xs border-collapse mb-6 border border-slate-300">
+          <thead>
+            <tr class="bg-slate-100 border-b border-slate-300 font-bold text-slate-700">
+              <th class="p-2 border border-slate-300">Skill Name</th>
+              <th class="p-2 border border-slate-300">Category</th>
+              <th class="p-2 border border-slate-300 text-center">Current</th>
+              <th class="p-2 border border-slate-300 text-center">Required</th>
+              <th class="p-2 border border-slate-300 text-center">Gap</th>
+              <th class="p-2 border border-slate-300 text-center">Weight</th>
+              <th class="p-2 border border-slate-300 text-center">Priority</th>
+              <th class="p-2 border border-slate-300">Status</th>
+            </tr>
+          </thead>
+          <tbody id="reportTableBody">
+            <!-- Injected via JS -->
+          </tbody>
+        </table>
+
+        <h2 class="text-sm font-bold text-slate-900 uppercase tracking-wider mb-2">Recommended Learning Roadmap</h2>
+        <div id="reportRecommendationsContainer" class="space-y-2 text-xs">
+          <!-- Injected via JS -->
+        </div>
+      </div>
+
     </div>
   </div>
 
@@ -452,6 +543,50 @@
       await fetchRoles();
       await fetchSkillsMaster();
       await fetchUsers();
+
+      // Query param helpers for automated module screenshots and direct navigation
+      const params = new URLSearchParams(window.location.search);
+      const userParam = params.get("user");
+      if (userParam) {
+        const u = allUsers.find(x => x._id === userParam || x.name.toLowerCase().includes(userParam.toLowerCase()));
+        if (u) {
+          activeUserId = u._id;
+          document.getElementById("userSelect").value = activeUserId;
+          await onUserChange();
+        }
+      }
+      const roleParam = params.get("role");
+      if (roleParam) {
+        const r = allRoles.find(x => x._id === roleParam || x.title.toLowerCase().includes(roleParam.toLowerCase()));
+        if (r) {
+          document.getElementById("roleSelect").value = r._id;
+          await onRoleChange();
+        }
+      }
+      const modalParam = params.get("modal");
+      if (modalParam === "simulator") {
+        const checkReady = setInterval(() => {
+          if (currentAnalysisData) {
+            clearInterval(checkReady);
+            openSimulatorModal();
+          }
+        }, 150);
+      } else if (modalParam === "extract") {
+        openExtractModal();
+        document.getElementById("resumeInputText").value = "Software Engineering student proficient in React, Node.js, Express, MongoDB aggregation pipelines, Docker containerization, AWS Cloud, TypeScript, REST API design, and Git.";
+        setTimeout(extractSkillsFromText, 300);
+      } else if (modalParam === "skills") {
+        setTimeout(openManageSkillsModal, 500);
+      } else if (modalParam === "newuser") {
+        openNewUserModal();
+      } else if (modalParam === "report") {
+        const checkReady = setInterval(() => {
+          if (currentAnalysisData) {
+            clearInterval(checkReady);
+            printAuditReport(false);
+          }
+        }, 150);
+      }
     });
 
     async function fetchRoles() {
@@ -1090,9 +1225,9 @@
     }
 
     // --- PRINT AUDIT REPORT ---
-    function printAuditReport() {
+    function printAuditReport(autoPrint = false) {
       if (!currentAnalysisData) {
-        alert("Please load an analysis first.");
+        alert("Please select a candidate profile first.");
         return;
       }
       document.getElementById("reportPrintDate").innerText = new Date().toLocaleDateString() + " " + new Date().toLocaleTimeString();
@@ -1107,26 +1242,28 @@
         const tr = document.createElement("tr");
         tr.className = "border-b border-slate-200";
         tr.innerHTML = `
-          <td class="p-2 font-medium">${g.skill}</td>
-          <td class="p-2 text-slate-600">${g.category}</td>
-          <td class="p-2">${g.currentLevel}</td>
-          <td class="p-2 font-semibold">${g.targetLevel}</td>
-          <td class="p-2 ${g.gap > 0 ? 'text-red-600 font-bold' : 'text-emerald-600 font-bold'}">${g.gap}</td>
-          <td class="p-2">${g.weight}</td>
-          <td class="p-2 font-bold">${g.priorityScore}</td>
-          <td class="p-2 font-semibold ${g.status === 'Benchmark Met' ? 'text-emerald-700' : (g.status === 'Missing Skill' ? 'text-red-700' : 'text-amber-700')}">${g.status}</td>
+          <td class="p-2 border border-slate-300 font-medium">${g.skill}</td>
+          <td class="p-2 border border-slate-300 text-slate-600">${g.category}</td>
+          <td class="p-2 border border-slate-300 text-center font-bold">${g.currentLevel}</td>
+          <td class="p-2 border border-slate-300 text-center font-bold text-indigo-700">${g.targetLevel}</td>
+          <td class="p-2 border border-slate-300 text-center ${g.gap > 0 ? 'text-red-600 font-black' : 'text-emerald-600 font-bold'}">${g.gap}</td>
+          <td class="p-2 border border-slate-300 text-center">${g.weight}</td>
+          <td class="p-2 border border-slate-300 text-center font-bold text-amber-600">${g.priorityScore}</td>
+          <td class="p-2 border border-slate-300 font-semibold ${g.status === 'Benchmark Satisfied' || g.status === 'Benchmark Met' ? 'text-emerald-700' : 'text-red-700'}">${g.status}</td>
         `;
         tbody.appendChild(tr);
       }
 
       const recsContainer = document.getElementById("reportRecommendationsContainer");
       recsContainer.innerHTML = "";
+      let hasRecs = false;
       for (const g of currentAnalysisData.gaps) {
         if (g.gap > 0 && g.learningResources && g.learningResources.length > 0) {
+          hasRecs = true;
           const div = document.createElement("div");
-          div.className = "p-2 bg-slate-50 border border-slate-200 rounded";
+          div.className = "p-2.5 bg-slate-50 border border-slate-200 rounded-lg";
           div.innerHTML = `
-            <p class="font-bold text-slate-800">${g.skill} (Gap: ${g.gap} levels &bull; Priority Score: ${g.priorityScore}):</p>
+            <p class="font-bold text-slate-800">${g.skill} (Deficit: ${g.gap} levels &bull; Priority Score: ${g.priorityScore}):</p>
             <ul class="list-disc ml-5 text-slate-700 mt-1">
               ${g.learningResources.map(r => `<li><strong>${r.title}</strong> (${r.platform}) — ~${r.durationHours} hours</li>`).join('')}
             </ul>
@@ -1134,8 +1271,22 @@
           recsContainer.appendChild(div);
         }
       }
+      if (!hasRecs) {
+        recsContainer.innerHTML = `<p class="text-xs text-emerald-700 font-bold p-2.5 bg-emerald-50 border border-emerald-200 rounded-lg">All competency benchmarks have been successfully satisfied! No active remedial coursework required.</p>`;
+      }
 
-      window.print();
+      // Open the preview modal on screen
+      document.getElementById("reportModal").classList.remove("hidden");
+
+      if (autoPrint) {
+        setTimeout(() => {
+          window.print();
+        }, 200);
+      }
+    }
+
+    function closeReportModal() {
+      document.getElementById("reportModal").classList.add("hidden");
     }
   </script>
 </body>
